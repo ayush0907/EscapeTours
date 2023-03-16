@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="HardcodedText">
+
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/all_places_item"
+            android:icon="@drawable/ic_baseline_home"
+            android:iconTint="@color/theme"
+            android:title="All Places" />
+
+
+        <item
+            android:id="@+id/contact_us_item"
+            android:icon="@drawable/ic_baseline_phone"
+            android:iconTint="@color/theme"
+            android:title="Contact Us" />
+
+        <item
+            android:id="@+id/about_us_item"
+            android:icon="@drawable/ic_baseline_people"
+            android:iconTint="@color/theme"
+            android:title="About Us" />
+
+    </group>
+    <item
+        android:id="@+id/rate_us_item"
+        android:icon="@drawable/ic_baseline_stars"
+        android:iconTint="@color/theme"
+        android:title="Rate Us" />
+
+
+    <item
+        android:id="@+id/more_apps_item"
+        android:icon="@drawable/ic_baseline_add_circle"
+        android:iconTint="@color/theme"
+        android:title="More Apps" />
+
+
+</menu>

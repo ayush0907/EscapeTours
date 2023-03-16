@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "613482615744",
+    "project_id": "escape-tours",
+    "storage_bucket": "escape-tours.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:613482615744:android:b7387d37780ce4a8eeee25",
+        "android_client_info": {
+          "package_name": "com.example.escapetour"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "613482615744-a67dhnbu6imjrdm9dhojs67j3jev3a8q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.escapetour",
+            "certificate_hash": "76ba8f735cb53e7797fd6b9d815a42a2599121cc"
+          }
+        },
+        {
+          "client_id": "613482615744-5dj6jvjmk7ab64j86gl8pt1up1dra032.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBd82avR85oeTdBCSzH2IpTNYMqhZgdumM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "613482615744-5dj6jvjmk7ab64j86gl8pt1up1dra032.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <item
+        android:id="@+id/search_view"
+        android:icon="@drawable/ic_search_icon"
+        android:title="Search"
+        app:showAsAction="always">
+
+    </item>
+
+    <item
+        android:id="@+id/notification"
+        android:icon="@drawable/ic_baseline_notifications_none_black"
+        android:title="Compose"
+        app:showAsAction="always">
+
+    </item>
+
+    <item
+        android:id="@+id/account"
+        android:icon="@drawable/ic_baseline_account_circle_black"
+        android:title="Account"
+        app:showAsAction="always">
+
+    </item>
+
+
+</menu>
