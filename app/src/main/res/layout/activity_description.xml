@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DescriptionActivity">
-
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -40,7 +38,7 @@
                     <com.smarteist.autoimageslider.SliderView
                         android:id="@+id/slider_description"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_190sdp"
+                        android:layout_height="@dimen/_170sdp"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
                         android:background="@color/white"
@@ -61,21 +59,6 @@
 
                     </com.smarteist.autoimageslider.SliderView>
 
-                    <TextView
-                        android:id="@+id/measure_distance"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginStart="@dimen/_15sdp"
-                        android:layout_marginTop="@dimen/_15sdp"
-                        android:layout_marginEnd="@dimen/_10sdp"
-                        android:layout_marginBottom="@dimen/_15sdp"
-                        android:padding="@dimen/_6sdp"
-                        android:text="distance"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/_10ssp"
-                        android:textStyle="bold" />
 
                 </RelativeLayout>
 
@@ -88,7 +71,7 @@
                     android:paddingBottom="@dimen/_4sdp"
                     android:text="Place name"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_18ssp"
+                    android:textSize="@dimen/_16ssp"
                     android:textStyle="bold"
                     tools:ignore="HardcodedText" />
 
@@ -109,15 +92,33 @@
                         android:padding="@dimen/_15sdp">
 
 
-                        <TextView
-
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="start"
-                            android:text="Information:"
-                            android:textColor="@color/theme"
-                            android:textSize="@dimen/_20ssp"
-                            android:textStyle="bold" />
+                            android:layout_height="wrap_content">
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="start"
+                                android:text="Information:"
+                                android:textColor="@color/theme"
+                                android:textSize="@dimen/_16ssp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/measure_distance"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_alignParentEnd="true"
+                                android:padding="@dimen/_6sdp"
+                                android:text="distance"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_12ssp"
+                                android:textStyle="bold" />
+
+
+                        </RelativeLayout>
 
 
                         <TableLayout
@@ -128,7 +129,8 @@
 
                             <TableRow
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/_5sdp">
 
                                 <!-- Column 1 -->
                                 <TextView
@@ -152,35 +154,11 @@
 
                             </TableRow>
 
-                            <TableRow
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <!-- Column 1 -->
-                                <TextView
-                                    android:layout_width="0dip"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="Address:"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/_12ssp"
-                                    android:textStyle="bold" />
-
-                                <!-- Column 2 -->
-                                <TextView
-                                    android:id="@+id/holder9"
-                                    android:layout_width="0dip"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="address"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/_12ssp" />
-
-                            </TableRow>
 
                             <TableRow
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/_5sdp">
 
                                 <!-- Column 1 -->
                                 <TextView
@@ -206,7 +184,37 @@
 
                             <TableRow
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/_5sdp">
+
+                                <!-- Column 1 -->
+                                <TextView
+                                    android:layout_width="0dip"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Address:"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_12ssp"
+                                    android:textStyle="bold" />
+
+                                <!-- Column 2 -->
+                                <TextView
+                                    android:id="@+id/holder9"
+                                    android:layout_width="0dip"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="address"
+                                    android:autoLink="map"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_12ssp" />
+
+                            </TableRow>
+
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/_5sdp">
 
                                 <!-- Column 1 -->
                                 <TextView
@@ -289,7 +297,7 @@
                             android:gravity="start"
                             android:text="Description"
                             android:textColor="@color/theme"
-                            android:textSize="@dimen/_20ssp"
+                            android:textSize="@dimen/_16ssp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -332,7 +340,7 @@
                             android:gravity="start"
                             android:text="Map and Navigation"
                             android:textColor="@color/theme"
-                            android:textSize="@dimen/_20ssp"
+                            android:textSize="@dimen/_16ssp"
                             android:textStyle="bold" />
 
 

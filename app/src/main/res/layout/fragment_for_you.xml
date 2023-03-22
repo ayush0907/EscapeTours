@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".ForYouFragment">
 
@@ -15,9 +16,9 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
+            android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true">
+            android:gravity="center">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -29,6 +30,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center" />
+
 
                 <TextView
                     android:id="@+id/no_internet"
@@ -69,15 +71,33 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/shopping_mall_txt"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingStart="@dimen/_10sdp"
-                    android:text="Shopping Malls and Marts"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_18ssp" />
+                    android:layout_marginVertical="@dimen/_5sdp">
+
+                    <TextView
+                        android:id="@+id/shopping_mall_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_4sdp"
+                        android:text="Places near you"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_16ssp"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:id="@+id/place_near_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:visibility="invisible"
+                        android:layout_marginHorizontal="@dimen/_10sdp"
+                        android:src="@drawable/ic_baseline_arrow_forward_24" />
+
+                </RelativeLayout>
 
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -87,14 +107,33 @@
                     android:orientation="horizontal"
                     android:scrollbars="none" />
 
-                <TextView
-                    android:id="@+id/Restaurant_txt"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingStart="@dimen/_10sdp"
-                    android:text="Restaurants and Cafes"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_18ssp" />
+                    android:layout_marginVertical="@dimen/_5sdp">
+
+                    <TextView
+                        android:id="@+id/Restaurant_txt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="@dimen/_4sdp"
+                        android:paddingStart="@dimen/_10sdp"
+                        android:text="Popular places"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_16ssp"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:id="@+id/popular_places_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:visibility="invisible"
+                        android:layout_marginHorizontal="@dimen/_10sdp"
+                        android:src="@drawable/ic_baseline_arrow_forward_24" />
+
+                </RelativeLayout>
+
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recview2"
@@ -107,10 +146,12 @@
                     android:id="@+id/rivers_txt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/_4sdp"
                     android:paddingLeft="@dimen/_10sdp"
-                    android:text="Rivers and Waterfalls"
+                    android:text="Talk with nature"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_18ssp" />
+                    android:textSize="@dimen/_16ssp"
+                    android:visibility="invisible" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recview3"
@@ -119,16 +160,52 @@
                     android:scrollbars="none" />
 
                 <TextView
-
+                    android:id="@+id/supermarket_txt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/_4sdp"
                     android:paddingStart="@dimen/_10sdp"
-                    android:text="Temples"
+                    android:text="Go for shopping"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_18ssp" />
+                    android:textSize="@dimen/_16ssp"
+                    android:visibility="invisible" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recview4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none" />
+
+                <TextView
+                    android:id="@+id/historical_places_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/_4sdp"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:text="For history lovers"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_16ssp"
+                    android:visibility="invisible" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recview5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none" />
+
+                <TextView
+                    android:id="@+id/wildlife_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/_4sdp"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:text="Kids section"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_16ssp"
+                    android:visibility="invisible" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recview6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scrollbars="none" />
@@ -142,7 +219,7 @@
     </RelativeLayout>
 
 
-</androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
 

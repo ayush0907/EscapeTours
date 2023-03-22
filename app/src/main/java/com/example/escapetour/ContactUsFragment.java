@@ -10,6 +10,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -23,7 +24,6 @@ public class ContactUsFragment extends Fragment implements Backpressedlisterner 
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
     public static ContactUsFragment backpressedlistener;
@@ -83,11 +83,13 @@ public class ContactUsFragment extends Fragment implements Backpressedlisterner 
 
         view = inflater.inflate(R.layout.fragment_contact_us, container, false);
 //        Toolbar toolbar = view.findViewById(R.id.normal_toolbar);
+
         MaterialToolbar toolbar = view.findViewById(R.id.normal_toolbar);
         toolbar.setTitle("Contact Us");
 
         drawerLayout = getActivity().findViewById(R.id.drawer);
         toggle = new ActionBarDrawerToggle(getActivity(), drawerLayout, toolbar, R.string.open, R.string.close);
+
         drawerLayout.addDrawerListener(toggle);
         toggle.setDrawerIndicatorEnabled(true);
         toggle.syncState();
@@ -115,39 +117,48 @@ public class ContactUsFragment extends Fragment implements Backpressedlisterner 
         return view;
     }
 
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        menu.clear();
-//        inflater.inflate(R.menu.contact_us_menu, menu);
-//        super.onCreateOptionsMenu(menu, inflater);
-//
-//    }
-
-
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.share_icon:
-//
-//                Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-//                shareIntent.setType("text/plain");
-//                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Escape Tour App Link");
-//                String app_url = " https://play.google.com/store/apps/details?id=" + getActivity().getPackageName();
-//                shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, app_url);
-//                startActivity(Intent.createChooser(shareIntent, "Share via"));
-//                break;
-//
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
 
     @Override
     public void onBackPressed() {
+        // Get the current fragment manager
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
 
-        AppCompatActivity activity = (AppCompatActivity) getContext();
-        activity.getSupportFragmentManager().beginTransaction().replace(R.id.flContent, new HomeFragment()).commit();
+        // Check if there are any fragments in the back stack
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            // Pop the top fragment off the back stack
+            fragmentManager.popBackStack();
+        } else {
+            // If there are no fragments in the back stack, call the super method to exit the app
+            onBackPressed();
+        }
     }
-
-
 }
+//    @Override
+//    public void onBackPressed() {
+//        // Get the current fragment manager
+//        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+//
+//        // Check if there are any fragments in the back stack
+//        if (fragmentManager.getBackStackEntryCount() > 0) {
+//            // Pop the top fragment off the back stack
+//            fragmentManager.popBackStack();
+//        } else {
+//            // If there are no fragments in the back stack, call the super method to exit the app
+//            onBackPressed();
+//        }
+//    }
+
+//    @Override
+//    public void onBackPressed() {
+//
+//        FragmentManager fragmentManager = getFragmentManager();
+//        if (fragmentManager.getBackStackEntryCount() > 0) {
+//            fragmentManager.beginTransaction().replace(R.id.flContent)
+//        } else {
+//            onBackPressed();
+//        }
+////        AppCompatActivity activity = (AppCompatActivity) getContext();
+////        activity.getSupportFragmentManager().beginTransaction().replace(R.id.flContent, new HomeFragment()).commit();
+//    }
+
+

@@ -1,6 +1,7 @@
 package com.example.escapetour;
 
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
@@ -8,16 +9,23 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -28,6 +36,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     FragmentManager fragmentManager;
     FloatingSearchView mSearchView;
+    private HomeFragment homeFragment;
+    Fragment currentFragment;
 
 
     @Override
@@ -36,6 +46,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         setContentView(R.layout.activity_home);
 
+        homeFragment = new HomeFragment();
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.home_toolbar);
 //
 //        setSupportActionBar(toolbar);
@@ -94,23 +105,120 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         });
 
     }
+//    @Override
+//    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//        int id = item.getItemId();
+//        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.flContent);
+//
+//        switch (id) {
+//            case R.id.all_places_item:
+//                if (currentFragment instanceof HomeFragment) {
+//                    drawerLayout.closeDrawer(GravityCompat.START);
+//                } else if(currentFragment instanceof ContactUsFragment){
+//                    FragmentManager fragmentManager = getSupportFragmentManager();
+//                    getSupportFragmentManager().beginTransaction()
+//                            .replace(R.id.flContent, new ContactUsFragment(), "contact_us_fragment").addToBackStack(null).commit();
+//
+////                    Intent intent = new Intent(this, HomeActivity.class);
+////                    startActivity(intent);
+//
+////                    getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+////                    getSupportFragmentManager().beginTransaction()
+////                            .replace(R.id.flContent, new HomeFragment())
+////                            .commit();
+//                }else if(currentFragment instanceof AboutUsFragment){
+//                    getSupportFragmentManager().beginTransaction()
+//                            .replace(R.id.flContent, new ContactUsFragment(), "contact_us_fragment").addToBackStack(null).commit();
+//                }
+//                break;
+//
+//            case R.id.contact_us_item:
+//                if (currentFragment instanceof ContactUsFragment) {
+//                    drawerLayout.closeDrawer(GravityCompat.START);
+//                } else  if(currentFragment instanceof HomeFragment){
+//
+//                    getSupportFragmentManager().beginTransaction()
+//                            .replace(R.id.flContent, new ContactUsFragment(), "contact_us_fragment").addToBackStack(null).commit();
+//                }else if(currentFragment instanceof AboutUsFragment){
+//                    getSupportFragmentManager().beginTransaction()
+//                            .replace(R.id.flContent, new ContactUsFragment()).commit();
+//                }
+//                break;
+//
+//            case R.id.about_us_item:
+//                if (currentFragment instanceof AboutUsFragment) {
+//                    drawerLayout.closeDrawer(GravityCompat.START);
+//                } else  if(currentFragment instanceof HomeFragment){
+//
+//                    getSupportFragmentManager().beginTransaction()
+//                            .replace(R.id.flContent, new AboutUsFragment(), "contact_us_fragment").addToBackStack(null).commit();
+//                }else if(currentFragment instanceof AboutUsFragment){
+//                    getSupportFragmentManager().beginTransaction()
+//                            .replace(R.id.flContent, new AboutUsFragment(), "contact_us_fragment").commit();
+//                }
+//                break;
+//
+//            case R.id.rate_us_item:
+//                try {
+//                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName())));
+//                } catch (ActivityNotFoundException e) {
+//                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName())));
+//                }
+//                break;
+//
+//            case R.id.more_apps_item:
+//                try {
+//                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market")));
+//                } catch (ActivityNotFoundException e) {
+//                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store")));
+//                }
+//                break;
+//        }
+//
+//        drawerLayout.closeDrawer(GravityCompat.START);
+//        return true;
+//    }
+
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         Fragment fragment = null;
         int id = item.getItemId();
-
+        currentFragment = getSupportFragmentManager().findFragmentById(R.id.flContent);
         switch (id) {
 
             case R.id.all_places_item:
-                fragment = new HomeFragment();
+
+                if (currentFragment instanceof HomeFragment) {
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                } else if (currentFragment instanceof ContactUsFragment) {
+//                    fragment =new HomeFragment();
+                    ContactUsFragment.backpressedlistener.onBackPressed();
+                } else {
+//                    fragment =new HomeFragment();
+                    AboutUsFragment.backpressedlistener.onBackPressed();
+                }
+
                 break;
             case R.id.contact_us_item:
-                fragment = new ContactUsFragment();
+
+                if (currentFragment instanceof ContactUsFragment) {
+                    drawerLayout.closeDrawer(GravityCompat.START);
+
+                } else {
+                    fragment = new ContactUsFragment();
+                }
+
                 break;
+
             case R.id.about_us_item:
-                fragment = new AboutUsFragment();
+                if (currentFragment instanceof AboutUsFragment) {
+                    drawerLayout.closeDrawer(GravityCompat.START);
+
+                } else {
+                    fragment = new AboutUsFragment();
+                }
                 break;
             case R.id.rate_us_item:
                 try {
@@ -126,246 +234,26 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store")));
                 }
                 break;
-            default:
-                fragment = new HomeFragment();
+
         }
 
-//        if (id == R.id.all_places_item) {
-//            fragment = new HomeFragment();
-//        } else if (id == R.id.contact_us_item) {
-//            fragment = new ContactUsFragment();
-//
-//        } else if (id == R.id.about_us_item) {
-//            fragment = new AboutUsFragment();
-//
-//        } else if (id == R.id.rate_us_item) {
-//            try {
-//                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName())));
-//            } catch (ActivityNotFoundException e) {
-//                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName())));
-//            }
-//
-//        } else if (id == R.id.more_apps_item) {
-//            try {
-//                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market")));
-//            } catch (ActivityNotFoundException e) {
-//                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store")));
-//            }
-//
-//        } else {
-//            fragment = new HomeFragment();
-//        }
+        ;
 
         if (fragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.flContent, fragment);
-            ft.commit();
+            FragmentManager fm = getSupportFragmentManager();
+            if (fm.getBackStackEntryCount() == 0) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.flContent, fragment).addToBackStack(null).commit();
 
+            } else {
+                getSupportFragmentManager().beginTransaction().replace(R.id.flContent, fragment).commit();
+            }
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
-//
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-//        return true;
-//    }
 
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        switch (item.getItemId()) {
-//
-//            case R.id.share_icon:
-//
-//                Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-//                shareIntent.setType("text/plain");
-//                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Escape Tour App Link");
-//                String app_url = " https://play.google.com/store/apps/details?id=" + getPackageName();
-//                shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, app_url);
-//                startActivity(Intent.createChooser(shareIntent, "Share via"));
-//                break;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
-
-
-    public void onBackPressed() {
-        drawerLayout = findViewById(R.id.drawer);
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            if (pressedTime + 2000 > System.currentTimeMillis()) {
-                super.onBackPressed();
-                finish();
-            } else if (ContactUsFragment.backpressedlistener != null) {
-                ContactUsFragment.backpressedlistener.onBackPressed();
-
-            } else if (AboutUsFragment.backpressedlistener != null) {
-                AboutUsFragment.backpressedlistener.onBackPressed();
-            } else if (SearchBoxFragment.backpressedlistener != null) {
-                SearchBoxFragment.backpressedlistener.onBackPressed();
-            } else {
-                Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT).show();
-            }
-            pressedTime = System.currentTimeMillis();
-        }
-    }
-
-
-}
-
-//import androidx.annotation.NonNull;
-//import androidx.appcompat.app.ActionBarDrawerToggle;
-//import androidx.appcompat.app.AppCompatActivity;
-//import androidx.appcompat.widget.Toolbar;
-//import androidx.core.view.GravityCompat;
-//import androidx.drawerlayout.widget.DrawerLayout;
-//import android.content.ActivityNotFoundException;
-//import android.content.Intent;
-//import android.net.Uri;
-//import android.view.Menu;
-//import android.os.Bundle;
-//import android.view.MenuItem;
-//import android.view.WindowManager;
-//import android.widget.TextView;
-//import android.widget.Toast;
-//import androidx.viewpager.widget.ViewPager;
-//
-//import com.google.android.material.navigation.NavigationView;
-//import com.google.android.material.tabs.TabLayout;
-//
-//public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-//
-//    private long pressedTime;
-//    DrawerLayout drawerLayout;
-//    ActionBarDrawerToggle toggle;
-//    NavigationView navigationView;
-//
-//    private ViewPagerAdapter viewPagerAdapter;
-//    private ViewPager viewPager;
-//    private TabLayout tabLayout;
-//
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//
-//        setContentView(R.layout.activity_home);
-//
-//
-//
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//
-//        drawerLayout = findViewById(R.id.drawer);
-//        navigationView = findViewById(R.id.nav_view);
-//
-//
-//        toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
-//        drawerLayout.addDrawerListener(toggle);
-//        toggle.setDrawerIndicatorEnabled(true);
-//        toggle.syncState();
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-//        getSupportActionBar().setHomeButtonEnabled(true);
-//
-//        NavigationView navigationView = findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener(this);
-//
-//
-//        viewPager = findViewById(R.id.viewpager);
-//
-//        // setting up the adapter
-//        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-//
-//        // add the fragments
-//        viewPagerAdapter.add(new Page1(), "ALL PLACES");
-//        viewPagerAdapter.add(new Page2(), "CATEGORIES");
-//        viewPagerAdapter.add(new Page3(), "FAVOURITES");
-//
-//        // Set the adapter
-//        viewPager.setAdapter(viewPagerAdapter);
-//
-//        tabLayout = findViewById(R.id.tablayout);
-//        tabLayout.setupWithViewPager(viewPager);
-//
-//
-//    }
-//
-//    @Override
-//    public boolean onNavigationItemSelected(MenuItem item) {
-//        // Handle navigation view item clicks here.
-//        int id = item.getItemId();
-//
-//        if (id == R.id.all_places_item) {
-//            viewPager.setCurrentItem(0);
-//
-//
-//        } else if (id == R.id.categories_item) {
-//            viewPager.setCurrentItem(1);
-//
-//
-//        } else if (id == R.id.favourite_places_item) {
-//            viewPager.setCurrentItem(2);
-//
-//
-//        } else if (id == R.id.contact_us_item) {
-//            Intent activityIntent = new Intent(getApplicationContext(), ContactUsActivity.class);
-//            startActivity(activityIntent);
-//            finish();
-//
-//
-//        } else if (id == R.id.rate_us_item) {
-//            try {
-//                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName())));
-//            } catch (ActivityNotFoundException e) {
-//                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName())));
-//            }
-//
-//        } else if (id == R.id.about_us_item) {
-//            Intent activityIntent = new Intent(getApplicationContext(), AboutUsActivity.class);
-//            startActivity(activityIntent);
-//            finish();
-//
-//        } else if (id == R.id.more_apps_item) {
-//            try {
-//                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market")));
-//            } catch (ActivityNotFoundException e) {
-//                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store")));
-//            }
-//
-//        }
-//
-//        drawerLayout.closeDrawer(GravityCompat.START);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.share_icon:
-//
-//                Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-//                shareIntent.setType("text/plain");
-//                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Escape Tour App Link");
-//                String app_url = " https://play.google.com/store/apps/details?id=" + getPackageName();
-//                shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, app_url);
-//                startActivity(Intent.createChooser(shareIntent, "Share via"));
-//                break;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
-//
-//    @Override
 //    public void onBackPressed() {
 //        drawerLayout = findViewById(R.id.drawer);
 //        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -374,15 +262,22 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 //            if (pressedTime + 2000 > System.currentTimeMillis()) {
 //                super.onBackPressed();
 //                finish();
+//            }
+//            else if (ContactUsFragment.backpressedlistener != null) {
+//                ContactUsFragment.backpressedlistener.onBackPressed();
+//
+//            } else if (AboutUsFragment.backpressedlistener != null) {
+//                AboutUsFragment.backpressedlistener.onBackPressed();
+//            } else if (SearchBoxFragment.backpressedlistener != null) {
+//                SearchBoxFragment.backpressedlistener.onBackPressed();
 //            } else {
 //                Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT).show();
 //            }
 //            pressedTime = System.currentTimeMillis();
 //        }
 //    }
-//
-//
-//}
-//
-//
-//
+
+
+}
+
+

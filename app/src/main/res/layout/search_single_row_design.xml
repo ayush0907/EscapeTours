@@ -22,10 +22,10 @@
 
         <TextView
             android:id="@+id/search_bar_place_name"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/_150sdp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_gravity="center"
+            android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_toEndOf="@+id/search_icon"
             android:textSize="@dimen/_12ssp"
@@ -33,6 +33,7 @@
             tools:ignore="HardcodedText" />
 
         <ImageView
+            android:id="@+id/arrow_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

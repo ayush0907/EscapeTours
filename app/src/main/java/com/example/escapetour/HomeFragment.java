@@ -1,21 +1,27 @@
 package com.example.escapetour;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
@@ -29,7 +35,7 @@ public class HomeFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static final String TAG = "No Internet";
-
+    public static HomeFragment backpressedlistener;
     private String mParam1;
     private String mParam2;
     ImageView imageView;
@@ -43,12 +49,14 @@ public class HomeFragment extends Fragment {
     FloatingSearchView mSearchView;
     MaterialToolbar toolbar;
     ViewPager2 viewPager2;
+    ViewPager viewPager;
     String searchText;
     TabLayout tabLayout;
+    ViewPagerAdapter viewPagerAdapter;
 
     public HomeFragment() {
-
     }
+
 
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
@@ -73,7 +81,6 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_home, container, false);
-
         toolbar = view.findViewById(R.id.home_toolbar);
         toolbar.setTitle("");
         drawerLayout = getActivity().findViewById(R.id.drawer);
@@ -86,59 +93,21 @@ public class HomeFragment extends Fragment {
 
         tabSetUp();
 
-
-//        ((HomeActivity) getActivity()).getSupportActionBar().setTitle("Home");
-
-
-//        Button retry_button = view.findViewById(R.id.retry_home_button);
-
-//        retry_button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                onlineCheck();
-//            }
-//        });
-
-//        img_taker();
-
-//        recview = (RecyclerView) view.findViewById(R.id.recview1);
-
-//        LinearLayoutManager HorizontalLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-//        recview.setLayoutManager(HorizontalLayout);
-
-//        recview.setLayoutManager(new LinearLayoutManager(getContext()));
-
-//        FirebaseRecyclerOptions<model> options =
-//                new FirebaseRecyclerOptions.Builder<model>()
-//                        .setQuery(FirebaseDatabase.getInstance("https://escape-tours-c343a-default-rtdb.firebaseio.com/").getReference().child("entertainment"), model.class)
-//                        .build();
-//
-//
-//        adapter = new myadapter(options);
-//        recview.setAdapter(adapter);
-//
-//        onlineCheck();
-
-
         return view;
     }
+
 
     public void tabSetUp() {
         viewPager2 = view.findViewById(R.id.home_viewpager);
         tabLayout = view.findViewById(R.id.home_tablayout);
-
         MyFragmentStateAdapter adapter = new MyFragmentStateAdapter(getActivity());
-
+//
         adapter.addFragment(new ForYouFragment(), "For you");
-        adapter.addFragment(new CitiesFragment(), "Cities");
         adapter.addFragment(new CategoriesFragment(), "Categories");
 
 
         viewPager2.setAdapter(adapter);
         viewPager2.setUserInputEnabled(false);
-
-
         new TabLayoutMediator(tabLayout, viewPager2,
                 (tab, position) -> tab.setText(adapter.getTitle(position))
         ).attach();
@@ -160,8 +129,14 @@ public class HomeFragment extends Fragment {
                         break;
 
                     case R.id.search_view:
+
+//                        Intent intent=new Intent(getActivity(),SearchActivity.class);
+//                        startActivity(intent);
+
+
                         AppCompatActivity activity = (AppCompatActivity) getContext();
-                        activity.getSupportFragmentManager().beginTransaction().replace(R.id.flContent, new SearchBoxFragment()).commit();
+                        activity.getSupportFragmentManager().beginTransaction().replace(R.id.flContent, new SearchBoxFragment()).addToBackStack(null).commit();
+                        break;
 
                 }
 
@@ -170,25 +145,6 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void searchbar_item() {
-
-        mSearchView.setOnMenuItemClickListener(new FloatingSearchView.OnMenuItemClickListener() {
-            @Override
-            public void onActionMenuItemSelected(MenuItem item) {
-
-                if (item.getItemId() == R.id.share_icon) {
-                    Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-                    shareIntent.setType("text/plain");
-                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Escape Tour App Link");
-                    String app_url = " https://play.google.com/store/apps/details?id=" + getActivity().getPackageName();
-                    shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, app_url);
-                    startActivity(Intent.createChooser(shareIntent, "Share via"));
-
-                }
-            }
-        });
-
-    }
 
 //    public void img_taker() {
 //
@@ -213,11 +169,6 @@ public class HomeFragment extends Fragment {
 //
 //    }
 
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        adapter.startListening();
-//    }
 
 //    @Override
 //    public void onStop() {

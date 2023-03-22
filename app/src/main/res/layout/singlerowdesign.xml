@@ -33,6 +33,8 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
                 android:text="distance"
+                android:paddingHorizontal="@dimen/_2sdp"
+                android:background="#454545"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
 

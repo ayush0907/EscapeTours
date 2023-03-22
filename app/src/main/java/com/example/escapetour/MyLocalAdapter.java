@@ -6,6 +6,7 @@ import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -53,14 +54,12 @@ public class MyLocalAdapter extends RecyclerView.Adapter<MyLocalAdapter.MyViewHo
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
         model item = mData.get(position);
-
         String place_id = item.getId();
         latitude = item.getLatitude();
         longitude = item.getLongitude();
 
         getLocation(cntxt);
         holder.bind(item, String.format("%.2f", results[0] / 1000));
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,7 +70,6 @@ public class MyLocalAdapter extends RecyclerView.Adapter<MyLocalAdapter.MyViewHo
             }
         });
     }
-
     private void getLocation(Context cntxt) {
         gpsTracker = new GpsTracker(cntxt);
         if (gpsTracker.canGetLocation()) {
@@ -112,8 +110,11 @@ public class MyLocalAdapter extends RecyclerView.Adapter<MyLocalAdapter.MyViewHo
             place_name.setText(item.getName());
             Glide.with(img1.getContext()).load(item.getImageUrl()).into(img1);
             city_name.setText(item.getCity());
-            distance.setText(results + " KM Away");
+            distance.setText(results + " KM");
+
 
         }
+
     }
+
 }

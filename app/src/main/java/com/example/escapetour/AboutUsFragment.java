@@ -9,6 +9,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -114,8 +115,27 @@ public class AboutUsFragment extends Fragment implements Backpressedlisterner {
 
     @Override
     public void onBackPressed() {
+        // Get the current fragment manager
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
 
-        AppCompatActivity activity = (AppCompatActivity) getContext();
-        activity.getSupportFragmentManager().beginTransaction().replace(R.id.flContent, new HomeFragment()).commit();
+        // Check if there are any fragments in the back stack
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            // Pop the top fragment off the back stack
+            fragmentManager.popBackStack();
+        } else {
+            // If there are no fragments in the back stack, call the super method to exit the app
+            onBackPressed();
+        }
     }
+//    @Override
+//    public void onBackPressed() {
+//        FragmentManager fragmentManager = getFragmentManager();
+//        if (fragmentManager.getBackStackEntryCount() > 0) {
+//            fragmentManager.popBackStack();
+//        } else {
+//            onBackPressed();
+//        }
+////        AppCompatActivity activity = (AppCompatActivity) getContext();
+////        activity.getSupportFragmentManager().beginTransaction().replace(R.id.flContent, new HomeFragment()).commit();
+//    }
 }

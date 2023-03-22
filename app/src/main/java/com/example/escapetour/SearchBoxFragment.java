@@ -1,18 +1,22 @@
 package com.example.escapetour;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -52,11 +56,10 @@ public class SearchBoxFragment extends Fragment implements Backpressedlisterner 
 
         searchView = rootView.findViewById(R.id.search_box_view);
 
-
         recyclerView = rootView.findViewById(R.id.search_recview);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setVisibility(View.INVISIBLE);
+//        recyclerView.setVisibility(View.INVISIBLE);
         dataList = new ArrayList<>();
         adapter = new SearchBarAdapter(dataList, getContext());
         recyclerView.setAdapter(adapter);
@@ -64,30 +67,25 @@ public class SearchBoxFragment extends Fragment implements Backpressedlisterner 
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                if (query.length() > 0) {
-                    filter(query);
-
-                    recyclerView.setVisibility(View.VISIBLE);
-                } else {
-                    recyclerView.setVisibility(View.INVISIBLE);
-                }
+//                if (query.length() > 0) {
+//                    filter(query);
+//
+//                    recyclerView.setVisibility(View.VISIBLE);
+//                } else {
+//                    recyclerView.setVisibility(View.INVISIBLE);
+//                }
                 searchView.clearFocus();
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (newText.length() > 0) {
-                    recyclerView.setVisibility(View.VISIBLE);
-                    Query query = databaseRef.orderByChild("name").startAt(newText.toUpperCase()).endAt(newText.toLowerCase() + "\uf8ff");
-                    FirebaseRecyclerOptions<MyModel> options = new FirebaseRecyclerOptions.Builder<MyModel>()
-                            .setQuery(query, MyModel.class)
-                            .build();
-                    adapter.updateOptions(options);
-                    filter(newText);
-                } else {
-                    recyclerView.setVisibility(View.INVISIBLE);
-                }
+                adapter.getFilter().filter(newText);
+//                if (newText.length() == 0) {
+//                    recyclerView.setVisibility(View.INVISIBLE);
+//                }
+//                    recyclerView.setVisibility(View.INVISIBLE);
+
 
                 return true;
             }
@@ -99,18 +97,27 @@ public class SearchBoxFragment extends Fragment implements Backpressedlisterner 
 
             @Override
             public void onSearchViewClosed() {
-                // Call onBackPressed when the search view is closed
-                onBackPressed();
+                searchView.clearFocus();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager(); // or getChildFragmentManager() if it's a child fragment
+                        fragmentManager.popBackStack();
+                        // show popup or navigate to new fragment here
+                    }
+                }, 200);
+
             }
         });
 
-        loadData();
+//        loadData();
 
         return rootView;
     }
 
+
     private void loadData() {
-        databaseRef.addValueEventListener(new ValueEventListener() {
+        databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 dataList.clear();
@@ -128,14 +135,60 @@ public class SearchBoxFragment extends Fragment implements Backpressedlisterner 
         });
     }
 
-    private void filter(String text) {
-        Query query;
-        if (TextUtils.isEmpty(text)) {
-            query = databaseRef;
-        } else {
-            query = databaseRef.orderByChild("name").startAt(text.toUpperCase()).endAt(text.toLowerCase() + "\uf8ff");
-        }
+//    private void filter(String text) {
+//        Query query;
+//        if (TextUtils.isEmpty(text)) {
+//            query = databaseRef;
+//        } else {
+//            query = databaseRef.orderByChild("name").startAt(text.toUpperCase()).endAt(text.toLowerCase());
+//        }
+//
+//        query.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                dataList.clear();
+//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                    MyModel model = snapshot.getValue(MyModel.class);
+//                    dataList.add(model);
+//                }
+//                adapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//                Toast.makeText(getContext(), "Failed to load filtered data!", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 
+    @Override
+    public void onPause() {
+        backpressedlistener = null;
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+//        adapter.stopListening();
+//        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        searchView.showSearch();
+//        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+        backpressedlistener = this;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        searchView.showSearch();
+
+        Query query = databaseRef.orderByChild("name");
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -152,42 +205,43 @@ public class SearchBoxFragment extends Fragment implements Backpressedlisterner 
                 Toast.makeText(getContext(), "Failed to load filtered data!", Toast.LENGTH_SHORT).show();
             }
         });
-    }
+//        databaseRef.orderByChild("name").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                List<MyModel> products = new ArrayList<>();
+//
+//                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+//                    MyModel model = dataSnapshot.getValue(MyModel.class);
+//                    products.add(model);
+//                }
+//                adapter.notifyDataSetChanged();
+////                adapter.setProducts(products);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                // Handle error
+//            }
+//        });
 
-    @Override
-    public void onPause() {
-        backpressedlistener = null;
-        super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-//        adapter.stopListening();
-//        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        searchView.showSearch();
-//        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
-        backpressedlistener = this;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-//        adapter.stopListening();
-        searchView.showSearch();
-//        adapter.startListening();
     }
 
     @Override
     public void onBackPressed() {
+//        searchView.closeSearch();
+//        searchView.clearFocus();
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager(); // or getChildFragmentManager() if it's a child fragment
+        fragmentManager.popBackStack();
 
-        AppCompatActivity activity = (AppCompatActivity) getContext();
-        activity.getSupportFragmentManager().beginTransaction().replace(R.id.flContent, new HomeFragment()).commit();
+//        FragmentManager fragmentManager = getFragmentManager();
+//        if (fragmentManager.getBackStackEntryCount() > 0) {
+//            fragmentManager.popBackStack();
+//        } else {
+//            onBackPressed();
+//        }
+
+//        AppCompatActivity activity = (AppCompatActivity) getContext();
+//        activity.getSupportFragmentManager().beginTransaction().replace(R.id.flContent, new HomeFragment()).commit();
     }
 
 }

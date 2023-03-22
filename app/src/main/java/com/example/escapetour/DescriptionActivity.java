@@ -16,6 +16,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -44,33 +45,23 @@ import com.smarteist.autoimageslider.SliderView;
 
 import org.w3c.dom.Document;
 
+import java.net.URL;
 import java.util.ArrayList;
 
 public class DescriptionActivity extends AppCompatActivity implements OnMapReadyCallback {
-    private static final String TAG = "No Data";
-    String name, address, description, facilities, website, phone, hours, place_id;
-    int images;
+
+    String place_id;
     private GoogleMap mMap;
-    Document doc;
     TextView holder6, holder7, holder8, holder9, holder10, holder11, holder12, measure_distance;
     LatLng point, current_point;
-    double latitude;
-    double longitude;
     double current_latitude;
     double current_longitude;
-    //    String distance;
     float[] results = new float[1];
     private GpsTracker gpsTracker;
     String[] img_url = new String[5];
     Button map_view_button, map_navigate_button;
     private DatabaseReference dbreference;
-    LatLng start, end;
-    GoogleMap map;
-    MapFragment map1 = null;
-    String parsedDistance;
-    String response;
     DescriptionModel dpm = new DescriptionModel();
-    String TotalDistance, TotalDuration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,8 +82,6 @@ public class DescriptionActivity extends AppCompatActivity implements OnMapReady
         Toolbar toolbar = findViewById(R.id.normal_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Description");
-
 
         viewSet();
 
@@ -104,8 +93,6 @@ public class DescriptionActivity extends AppCompatActivity implements OnMapReady
         mapFragment.getMapAsync(this);
 //
         measure_distance = findViewById(R.id.measure_distance);
-
-//        gd = new GoogleDirection(this);
 
 
         map_view_button = findViewById(R.id.map_view_button);
@@ -130,11 +117,28 @@ public class DescriptionActivity extends AppCompatActivity implements OnMapReady
             }
         });
 
-
+//        MyAsyncTasks myAsyncTasks = new MyAsyncTasks();
+//        myAsyncTasks.execute();
         dataFetch();
 
     }
 
+//    public class MyAsyncTasks extends AsyncTask<URL, Integer, Long> {
+//        public String doInBackground(URL... urls) {
+//
+//            return "sssss";
+//
+//        }
+//
+//
+//        protected void onProgressUpdate(Integer... progress) {
+//
+//        }
+//
+//        protected void onPostExecute(Long result) {
+//
+//        }
+//    }
 
     private void getLocation() {
         gpsTracker = new GpsTracker(this);
@@ -187,10 +191,12 @@ public class DescriptionActivity extends AppCompatActivity implements OnMapReady
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("MyApp", "DatabaseError in onCancelled: " + databaseError.getMessage());
             }
         });
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -213,9 +219,10 @@ public class DescriptionActivity extends AppCompatActivity implements OnMapReady
                 break;
 
             case android.R.id.home:
-                Intent intent = new Intent(this, HomeActivity.class);
-                startActivity(intent);
-                finish();
+                super.onBackPressed();
+//                Intent intent = new Intent(this, HomeActivity.class);
+//                startActivity(intent);
+//                finish();
                 return true;
         }
 
@@ -232,6 +239,7 @@ public class DescriptionActivity extends AppCompatActivity implements OnMapReady
         holder10.setText(dpm.getPhone());
         holder11.setText(dpm.getWebsite());
         holder12.setText(dpm.getDescription());
+        getSupportActionBar().setTitle(dpm.getName());
 
     }
 
@@ -279,7 +287,6 @@ public class DescriptionActivity extends AppCompatActivity implements OnMapReady
         measure_distance.setText(String.format("%.2f", results[0] / 1000) + " KM Away");
         mMap.addPolyline((new PolylineOptions()).add(current_point, point).width(10).color(Color.BLUE).geodesic(true));
 //        Toast.makeText(this, "Distance "+distance1, Toast.LENGTH_LONG).show();
-
 
 //        Toast.makeText(this, "Hello"+ Arrays.toString(results), Toast.LENGTH_SHORT).show();
 //        distance = SphericalUtil.computeDistanceBetween(current_point,point);
