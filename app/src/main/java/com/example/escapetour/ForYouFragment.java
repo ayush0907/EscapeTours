@@ -53,7 +53,7 @@ public class ForYouFragment extends Fragment {
     private DatabaseReference db_reference;
     View view;
     String[] img_url = new String[10];
-    RecyclerView recview1, recview2, recview3, recview4;
+    RecyclerView recview1, recview2, recview3, recview4, recview5,recview6;
     myadapter adapter;
     ProgressBar progressBar;
     GpsTracker gpsTracker;
@@ -105,20 +105,32 @@ public class ForYouFragment extends Fragment {
         recview2 = (RecyclerView) view.findViewById(R.id.recview2);
         recview3 = (RecyclerView) view.findViewById(R.id.recview3);
         recview4 = (RecyclerView) view.findViewById(R.id.recview4);
+        recview5 = (RecyclerView) view.findViewById(R.id.recview5);
+        recview5 = (RecyclerView) view.findViewById(R.id.recview5);
+        recview6 = (RecyclerView) view.findViewById(R.id.recview6);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         GridLayoutManager gridLayoutManager2 = new GridLayoutManager(getContext(), 2);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         LinearLayoutManager layoutManager2 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         LinearLayoutManager layoutManager3 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManager4 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManager5 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManager6 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
 
         recview1.setLayoutManager(layoutManager);
         recview2.setLayoutManager(layoutManager2);
         recview3.setLayoutManager(layoutManager3);
+        recview4.setLayoutManager(layoutManager4);
+        recview5.setLayoutManager(layoutManager5);
+        recview6.setLayoutManager(layoutManager6);
 
 
         fetch_data_recview_1();
         fetch_data_recview_2();
         fetch_data_recview_3();
+        fetch_data_recview_4();
+        fetch_data_recview_5();
+        fetch_data_recview_6();
 
 
 //        spinnerDistance.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -144,6 +156,7 @@ public class ForYouFragment extends Fragment {
         return view;
     }
 
+
 //    private int parseDistance(String distanceString) {
 //        switch (distanceString) {
 //            case "< 1 km":
@@ -162,7 +175,7 @@ public class ForYouFragment extends Fragment {
     public void fetch_data_recview_1() {
         List<model> data = new ArrayList<>();
         MyLocalAdapter adapterlocal = new MyLocalAdapter(getContext(), data);
-        FirebaseDatabase.getInstance("https://escape-tours-c343a-default-rtdb.firebaseio.com/").getReference("entertainment").orderByChild("category").equalTo("Shopping malls and marts")
+        FirebaseDatabase.getInstance("https://escape-tours-c343a-default-rtdb.firebaseio.com/").getReference("entertainment").orderByChild("category").equalTo("malls")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -198,7 +211,7 @@ public class ForYouFragment extends Fragment {
     public void fetch_data_recview_2() {
         List<model> data = new ArrayList<>();
         MyLocalAdapter adapterlocal = new MyLocalAdapter(getContext(), data);
-        FirebaseDatabase.getInstance("https://escape-tours-c343a-default-rtdb.firebaseio.com/").getReference("entertainment").orderByChild("category").equalTo("Restaurants and cafes")
+        FirebaseDatabase.getInstance("https://escape-tours-c343a-default-rtdb.firebaseio.com/").getReference("entertainment").orderByChild("category").equalTo("r&c")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -233,7 +246,7 @@ public class ForYouFragment extends Fragment {
     public void fetch_data_recview_3() {
         List<model> data = new ArrayList<>();
         MyLocalAdapter adapterlocal = new MyLocalAdapter(getContext(), data);
-        FirebaseDatabase.getInstance("https://escape-tours-c343a-default-rtdb.firebaseio.com/").getReference("entertainment").orderByChild("category").equalTo("Rivers and waterfalls")
+        FirebaseDatabase.getInstance("https://escape-tours-c343a-default-rtdb.firebaseio.com/").getReference("entertainment").orderByChild("category").equalTo("r&w")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -254,6 +267,39 @@ public class ForYouFragment extends Fragment {
                             adapterlocal.setItems(data);
                             recview3.setAdapter(adapterlocal);
                         }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        // Handle error
+                    }
+                });
+    }
+
+    private void fetch_data_recview_4() {
+        List<model> data = new ArrayList<>();
+        MyLocalAdapter adapterlocal = new MyLocalAdapter(getContext(), data);
+        FirebaseDatabase.getInstance("https://escape-tours-c343a-default-rtdb.firebaseio.com/").getReference("entertainment").orderByChild("category").equalTo("supermarkets")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                            model item = childSnapshot.getValue(model.class);
+                            double latitude = item.getLatitude();
+                            double longitude = item.getLongitude();
+                            float distance = getLocation(latitude, longitude);
+//                            if (distance < dist) {
+                            data.add(item);
+//                            }
+                        }
+                        if (data.size() == 0) {
+                            view.findViewById(R.id.supermarket_txt).setVisibility(View.GONE);
+                            recview4.setVisibility(View.GONE);
+                        } else {
+                            adapterlocal.setItems(data);
+                            recview4.setAdapter(adapterlocal);
+                        }
 
                     }
 
@@ -263,6 +309,75 @@ public class ForYouFragment extends Fragment {
                     }
                 });
     }
+
+    private void fetch_data_recview_5() {
+        List<model> data = new ArrayList<>();
+        MyLocalAdapter adapterlocal = new MyLocalAdapter(getContext(), data);
+        FirebaseDatabase.getInstance("https://escape-tours-c343a-default-rtdb.firebaseio.com/").getReference("entertainment").orderByChild("category").equalTo("hp")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                            model item = childSnapshot.getValue(model.class);
+                            double latitude = item.getLatitude();
+                            double longitude = item.getLongitude();
+                            float distance = getLocation(latitude, longitude);
+//                            if (distance < dist) {
+                            data.add(item);
+//                            }
+                        }
+                        if (data.size() == 0) {
+                            view.findViewById(R.id.historical_places_txt).setVisibility(View.GONE);
+                            recview5.setVisibility(View.GONE);
+                        } else {
+                            adapterlocal.setItems(data);
+                            recview5.setAdapter(adapterlocal);
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        // Handle error
+                    }
+                });
+    }
+
+    private void fetch_data_recview_6() {
+        List<model> data = new ArrayList<>();
+        MyLocalAdapter adapterlocal = new MyLocalAdapter(getContext(), data);
+        FirebaseDatabase.getInstance("https://escape-tours-c343a-default-rtdb.firebaseio.com/").getReference("entertainment").orderByChild("category").equalTo("wild")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                            model item = childSnapshot.getValue(model.class);
+                            double latitude = item.getLatitude();
+                            double longitude = item.getLongitude();
+                            float distance = getLocation(latitude, longitude);
+//                            if (distance < dist) {
+                            data.add(item);
+//                            }
+                        }
+                        if (data.size() == 0) {
+                            view.findViewById(R.id.wildlife_txt).setVisibility(View.GONE);
+                            recview6.setVisibility(View.GONE);
+                        } else {
+                            adapterlocal.setItems(data);
+                            recview6.setAdapter(adapterlocal);
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        // Handle error
+                    }
+                });
+    }
+
 
 //    public void img_taker() {
 //

@@ -133,7 +133,7 @@ public class SearchBoxFragment extends Fragment implements Backpressedlisterner 
         if (TextUtils.isEmpty(text)) {
             query = databaseRef;
         } else {
-            query = databaseRef.orderByChild("name").startAt(text.toUpperCase()).endAt(text.toLowerCase() + "\uf8ff");
+            query = databaseRef.orderByChild("name").startAt(text.toUpperCase()).endAt(text.toLowerCase());
         }
 
         query.addValueEventListener(new ValueEventListener() {

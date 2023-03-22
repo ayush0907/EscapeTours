@@ -15,9 +15,9 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
+            android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true">
+            android:gravity="center">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -73,9 +73,9 @@
                     android:id="@+id/shopping_mall_txt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingStart="@dimen/_10sdp"
-                    android:text="Shopping Malls and Marts"
                     android:layout_marginTop="@dimen/_10sdp"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:text="Shopping Malls"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_18ssp" />
 
@@ -119,16 +119,46 @@
                     android:scrollbars="none" />
 
                 <TextView
-
+                    android:id="@+id/supermarket_txt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingStart="@dimen/_10sdp"
-                    android:text="Temples"
+                    android:text="Supermarkets"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_18ssp" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recview4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none" />
+
+                <TextView
+                    android:id="@+id/historical_places_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:text="Historical Places"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_18ssp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recview5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none" />
+
+                <TextView
+                    android:id="@+id/wildlife_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:text="Wildlife"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_18ssp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recview6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scrollbars="none" />

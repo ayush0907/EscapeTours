@@ -23,7 +23,6 @@ public class ContactUsFragment extends Fragment implements Backpressedlisterner 
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
     public static ContactUsFragment backpressedlistener;
@@ -83,11 +82,13 @@ public class ContactUsFragment extends Fragment implements Backpressedlisterner 
 
         view = inflater.inflate(R.layout.fragment_contact_us, container, false);
 //        Toolbar toolbar = view.findViewById(R.id.normal_toolbar);
+
         MaterialToolbar toolbar = view.findViewById(R.id.normal_toolbar);
         toolbar.setTitle("Contact Us");
 
         drawerLayout = getActivity().findViewById(R.id.drawer);
         toggle = new ActionBarDrawerToggle(getActivity(), drawerLayout, toolbar, R.string.open, R.string.close);
+
         drawerLayout.addDrawerListener(toggle);
         toggle.setDrawerIndicatorEnabled(true);
         toggle.syncState();

@@ -3,6 +3,8 @@ package com.example.escapetour;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -10,6 +12,7 @@ import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
@@ -43,12 +46,19 @@ public class HomeFragment extends Fragment {
     FloatingSearchView mSearchView;
     MaterialToolbar toolbar;
     ViewPager2 viewPager2;
+    ViewPager viewPager;
     String searchText;
     TabLayout tabLayout;
+    ViewPagerAdapter viewPagerAdapter;
 
     public HomeFragment() {
-
     }
+
+
+    public HomeFragment(int id) {
+      viewPager.setCurrentItem(1);
+    }
+
 
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
@@ -84,7 +94,19 @@ public class HomeFragment extends Fragment {
         toggle.getDrawerArrowDrawable().setColor(ContextCompat.getColor(getActivity(), R.color.white));
         toolbar_menu_item();
 
-        tabSetUp();
+        tabLayout = view.findViewById(R.id.home_tablayout);
+        viewPager = view.findViewById(R.id.home_viewpager);
+
+        viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
+
+        viewPagerAdapter.add(new ForYouFragment(), "For You");
+        viewPagerAdapter.add(new CategoriesFragment(), "Categories");
+
+        viewPager.setAdapter(viewPagerAdapter);
+        tabLayout.setupWithViewPager(viewPager);
+
+
+//        tabSetUp();
 
 
 //        ((HomeActivity) getActivity()).getSupportActionBar().setTitle("Home");
@@ -124,24 +146,41 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+//        MyFragmentStateAdapter adapter = new MyFragmentStateAdapter(getActivity());
+//
+//        adapter.addFragment(new ForYouFragment(), "For you");
+//        adapter.addFragment(new CitiesFragment(), "Cities");
+//        adapter.addFragment(new CategoriesFragment(), "Categories");
+//
+//
+//        viewPager2.setAdapter(adapter);
+
+
+        // add the fragments
+
+
+
+        // Set the adapter
+
+
+
+    }
+
     public void tabSetUp() {
-        viewPager2 = view.findViewById(R.id.home_viewpager);
-        tabLayout = view.findViewById(R.id.home_tablayout);
-
-        MyFragmentStateAdapter adapter = new MyFragmentStateAdapter(getActivity());
-
-        adapter.addFragment(new ForYouFragment(), "For you");
-        adapter.addFragment(new CitiesFragment(), "Cities");
-        adapter.addFragment(new CategoriesFragment(), "Categories");
+//        viewPager2 = view.findViewById(R.id.home_viewpager);
 
 
-        viewPager2.setAdapter(adapter);
-        viewPager2.setUserInputEnabled(false);
+//        new TabLayoutMediator(tabLayout, viewPager2,
+//                (tab, position) -> tab.setText(adapter.getTitle(position))
+//        ).attach();
+    }
 
-
-        new TabLayoutMediator(tabLayout, viewPager2,
-                (tab, position) -> tab.setText(adapter.getTitle(position))
-        ).attach();
+    public ViewPager getViewPager() {
+        return viewPager;
     }
 
     private void toolbar_menu_item() {
@@ -160,8 +199,14 @@ public class HomeFragment extends Fragment {
                         break;
 
                     case R.id.search_view:
+
+//                        Intent intent=new Intent(getActivity(),SearchActivity.class);
+//                        startActivity(intent);
+
+
                         AppCompatActivity activity = (AppCompatActivity) getContext();
                         activity.getSupportFragmentManager().beginTransaction().replace(R.id.flContent, new SearchBoxFragment()).commit();
+                        break;
 
                 }
 

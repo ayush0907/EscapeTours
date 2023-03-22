@@ -1,6 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootCV"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_190sdp"
+    android:elevation="@dimen/_8sdp"
+    app:cardCornerRadius="@dimen/_3sdp"
+    app:cardPreventCornerOverlap="false"
+    app:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_130sdp"
+            android:id="@+id/image_text_layout">
+
+            <ImageView
+                android:id="@+id/entertainment_place_img"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_130sdp"
+                android:scaleType="fitXY"
+                android:transitionName="posterImageTransition" />
+
+            <TextView
+                android:id="@+id/measure_distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:text="distance"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/entertainment_place_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/image_text_layout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="@dimen/_2sdp"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:layout_marginRight="@dimen/_2sdp"
+            android:ellipsize="end"
+            android:gravity="left"
+            android:maxLines="1"
+            android:text="Entertainment Place"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_13ssp" />
+
+
+        <TextView
+            android:id="@+id/city_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:paddingLeft="@dimen/_3sdp"
+            android:text="City"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_13ssp" />
+
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
+
+
+    <!--<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--    xmlns:tools="http://schemas.android.com/tools"-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="@dimen/_400sdp"-->
+    <!--    android:layout_marginBottom="@dimen/_15sdp">-->
+
+    <!--    <RelativeLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent">-->
+
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/entertainment_place_name"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:maxLines="1"-->
+    <!--            android:paddingStart="@dimen/_20sdp"-->
+    <!--            android:paddingEnd="@dimen/_20sdp"-->
+    <!--            android:text="Place Name"-->
+    <!--            android:textColor="@color/black"-->
+    <!--            android:textSize="@dimen/_14ssp"-->
+    <!--            tools:ignore="HardcodedText" />-->
+    <!--        <TextView-->
+    <!--            android:id="@+id/city_name"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:maxLines="1"-->
+    <!--            android:paddingStart="@dimen/_20sdp"-->
+    <!--            android:paddingBottom="@dimen/_5sdp"-->
+    <!--            android:paddingEnd="@dimen/_20sdp"-->
+    <!--            android:layout_below="@id/entertainment_place_name"-->
+    <!--            android:text="City Name"-->
+    <!--            android:textColor="@color/black"-->
+    <!--            android:textSize="@dimen/_12ssp"-->
+    <!--            tools:ignore="HardcodedText" />-->
+
+
+    <!--        <ImageView-->
+    <!--            android:id="@+id/entertainment_place_img"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="@dimen/_320sdp"-->
+    <!--            android:layout_below="@id/city_name"-->
+    <!--            android:scaleType="fitXY"-->
+    <!--            android:src="@drawable/ready_sign" />-->
+
+    <!--        <View-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="1dp"-->
+    <!--            android:layout_below="@id/entertainment_place_img"-->
+    <!--            android:background="#000000" />-->
+
+
+    <!--        <ImageButton-->
+    <!--            android:id="@+id/like_icon"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="@dimen/_35sdp"-->
+    <!--            android:layout_alignParentBottom="true"-->
+    <!--            android:background="@color/white"-->
+    <!--            android:paddingStart="@dimen/_30sdp"-->
+    <!--            android:src="@drawable/ic_baseline_thumb_up_24" />-->
+
+
+    <!--        <ImageButton-->
+    <!--            android:id="@+id/save_icon"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="@dimen/_35sdp"-->
+    <!--            android:layout_alignParentEnd="true"-->
+    <!--            android:layout_alignParentBottom="true"-->
+    <!--            android:background="@color/white"-->
+    <!--            android:paddingEnd="@dimen/_30sdp"-->
+    <!--            android:src="@drawable/ic_baseline_save_24" />-->
+
+    <!--        <View-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="1dp"-->
+    <!--            android:layout_alignParentBottom="true"-->
+    <!--            android:background="#000000" />-->
+    <!--    </RelativeLayout>-->
+
+
+    <!--</androidx.cardview.widget.CardView>-->
+
+

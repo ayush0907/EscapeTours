@@ -7,6 +7,8 @@
         android:icon="@drawable/ic_share_white"
         app:showAsAction="always"
         android:title="Compose"
-        tools:ignore="HardcodedText"></item>
+        tools:ignore="HardcodedText">
+
+    </item>
 
 </menu>

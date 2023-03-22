@@ -213,9 +213,10 @@ public class DescriptionActivity extends AppCompatActivity implements OnMapReady
                 break;
 
             case android.R.id.home:
-                Intent intent = new Intent(this, HomeActivity.class);
-                startActivity(intent);
-                finish();
+                super.onBackPressed();
+//                Intent intent = new Intent(this, HomeActivity.class);
+//                startActivity(intent);
+//                finish();
                 return true;
         }
 

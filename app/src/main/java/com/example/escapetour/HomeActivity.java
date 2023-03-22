@@ -8,12 +8,15 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
@@ -28,6 +31,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     FragmentManager fragmentManager;
     FloatingSearchView mSearchView;
+    private HomeFragment homeFragment;
 
 
     @Override
@@ -35,7 +39,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_home);
-
+        homeFragment = new HomeFragment();
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.home_toolbar);
 //
 //        setSupportActionBar(toolbar);
@@ -108,7 +112,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.contact_us_item:
                 fragment = new ContactUsFragment();
+//                ViewPager viewPager=
+//              ViewPager2 viewPager2=homeFragment.getViewPager();
+//             int t= viewPager2.getCurrentItem();
+//                Toast.makeText(getApplicationContext(), "hello"+t, Toast.LENGTH_SHORT).show();
                 break;
+
             case R.id.about_us_item:
                 fragment = new AboutUsFragment();
                 break;
@@ -207,7 +216,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 AboutUsFragment.backpressedlistener.onBackPressed();
             } else if (SearchBoxFragment.backpressedlistener != null) {
                 SearchBoxFragment.backpressedlistener.onBackPressed();
-            } else {
+            }
+            else {
                 Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT).show();
             }
             pressedTime = System.currentTimeMillis();
