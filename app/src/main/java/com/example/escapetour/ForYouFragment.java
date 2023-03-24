@@ -164,7 +164,7 @@ public class ForYouFragment extends Fragment {
                 for (DataSnapshot childSnapshot : snapshot.getChildren()) {
                     model item = childSnapshot.getValue(model.class);
                     String nodeId = childSnapshot.getKey();
-                    if (!addedNodeIds.contains(nodeId)) {
+                    if (!addedNodeIds.contains(nodeId)) { //good
                         double latitude = item.getLatitude();
                         double longitude = item.getLongitude();
                         float distance = getLocation(latitude, longitude);
