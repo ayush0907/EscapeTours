@@ -1,8 +1,14 @@
 package com.example.escapetour;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.location.Location;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -10,12 +16,16 @@ import android.os.Bundle;
 
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,8 +74,9 @@ public class ForYouFragment extends Fragment {
     myadapter adapter;
     ProgressBar main_progress_bar;
     DatabaseReference myRef;
-    GpsTracker gpsTracker;
+    //    GpsTracker gpsTracker;
     Double current_latitude, current_longitude;
+    private static final int REQUEST_LOCATION_PERMISSION = 1;
 
 
     public ForYouFragment() {
@@ -75,7 +86,7 @@ public class ForYouFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-
+//        gpsTracker.getLocation();
 
     }
 
@@ -105,7 +116,6 @@ public class ForYouFragment extends Fragment {
         firebaseDatabase = FirebaseDatabase.getInstance("https://escape-tours-c343a-default-rtdb.firebaseio.com");
         myRef = firebaseDatabase.getReference("entertainment");
         Button retry_button = view.findViewById(R.id.retry_home_button);
-        onlineCheck();
         retry_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,6 +123,18 @@ public class ForYouFragment extends Fragment {
                 onlineCheck();
             }
         });
+
+//        if (!isGpsEnabled()) {
+//            showEnableGpsDialog();
+//        }
+
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_PERMISSION);
+        } else {
+
+        }
+
 
 //        img_taker();
 
@@ -138,7 +160,7 @@ public class ForYouFragment extends Fragment {
         recview4.setLayoutManager(layoutManager4);
         recview5.setLayoutManager(layoutManager5);
         recview6.setLayoutManager(layoutManager6);
-
+        onlineCheck();
 
 //        fetch_data_recview_1();
 //        fetch_data_recview_2();
@@ -164,14 +186,14 @@ public class ForYouFragment extends Fragment {
                 for (DataSnapshot childSnapshot : snapshot.getChildren()) {
                     model item = childSnapshot.getValue(model.class);
                     String nodeId = childSnapshot.getKey();
-                    if (!addedNodeIds.contains(nodeId)) { //good
-                        double latitude = item.getLatitude();
-                        double longitude = item.getLongitude();
-                        float distance = getLocation(latitude, longitude);
-                        if (distance < 30) {
-                            data.add(item);
-                            addedNodeIds.add(nodeId);
-                        }
+                    if (!addedNodeIds.contains(nodeId)) {
+//                        double latitude = item.getLatitude();
+//                        double longitude = item.getLongitude();
+//                        float distance = getLocation(latitude, longitude);
+//                        if (distance < 30) {
+                        data.add(item);
+                        addedNodeIds.add(nodeId);
+//                        }
                     }
                 }
                 if (data.size() == 0) {
@@ -392,19 +414,65 @@ public class ForYouFragment extends Fragment {
 //
 //    }
 
-    private float getLocation(Double latitude, Double longitude) {
-        gpsTracker = new GpsTracker(getContext());
-        float[] results = new float[1];
-        if (gpsTracker.canGetLocation()) {
-            current_latitude = gpsTracker.getLatitude();
-            current_longitude = gpsTracker.getLongitude();
-        } else {
-            gpsTracker.showSettingsAlert();
-        }
-        Location.distanceBetween(latitude, longitude, current_latitude, current_longitude, results);
-        return results[0] / 1000;
+//    private float getLocation(Double latitude, Double longitude) {
+//        gpsTracker = new GpsTracker(getContext());
+//        float[] results = new float[1];
+//        if (gpsTracker.canGetLocation()) {
+//            current_latitude = gpsTracker.getLatitude();
+//            current_longitude = gpsTracker.getLongitude();
+//        } else {
+//            gpsTracker.showSettingsAlert();
+//        }
+//        Location.distanceBetween(latitude, longitude, current_latitude, current_longitude, results);
+//        return results[0] / 1000;
+//    }
+
+    private boolean isGpsEnabled() {
+        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
     }
 
+    private void showEnableGpsDialog() {
+        AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                .setTitle("Enable GPS")
+                .setMessage("This app requires GPS to be enabled. Do you want to enable it now?")
+                .setPositiveButton("Enable", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        startActivity(intent);
+                    }
+                })
+                .setNegativeButton("Not now", null)
+                .create();
+
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                Button positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+                Button negativeButton = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+
+                positiveButton.setTextColor(getResources().getColor(R.color.white));
+                negativeButton.setTextColor(getResources().getColor(R.color.white));
+
+            }
+        });
+
+        dialog.show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_LOCATION_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, do something
+                // For example, show the current location on a map
+                // Or start a service that needs location updates
+            } else {
+                // Permission denied, show a message or disable the functionality that requires this permission
+            }
+        }
+    }
 
     @Override
     public void onStop() {

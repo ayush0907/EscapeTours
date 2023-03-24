@@ -1,7 +1,9 @@
 package com.example.escapetour;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -45,8 +48,7 @@ public class MyLocalAdapter extends RecyclerView.Adapter<MyLocalAdapter.MyViewHo
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.singlerowdesign, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.singlerowdesign, parent, false);
         return new MyViewHolder(itemView);
     }
 
@@ -57,8 +59,15 @@ public class MyLocalAdapter extends RecyclerView.Adapter<MyLocalAdapter.MyViewHo
         String place_id = item.getId();
         latitude = item.getLatitude();
         longitude = item.getLongitude();
+//        getLocation(cntxt);
+        if (ContextCompat.checkSelfPermission(cntxt, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-        getLocation(cntxt);
+            holder.distance.setVisibility(View.GONE);
+        } else {
+            getLocation(cntxt);
+            holder.distance.setVisibility(View.VISIBLE);
+        }
+
         holder.bind(item, String.format("%.2f", results[0] / 1000));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,13 +79,12 @@ public class MyLocalAdapter extends RecyclerView.Adapter<MyLocalAdapter.MyViewHo
             }
         });
     }
+
     private void getLocation(Context cntxt) {
         gpsTracker = new GpsTracker(cntxt);
         if (gpsTracker.canGetLocation()) {
             current_latitude = gpsTracker.getLatitude();
             current_longitude = gpsTracker.getLongitude();
-        } else {
-            gpsTracker.showSettingsAlert();
         }
         Location.distanceBetween(latitude, longitude, current_latitude, current_longitude, results);
 
@@ -110,8 +118,9 @@ public class MyLocalAdapter extends RecyclerView.Adapter<MyLocalAdapter.MyViewHo
             place_name.setText(item.getName());
             Glide.with(img1.getContext()).load(item.getImageUrl()).into(img1);
             city_name.setText(item.getCity());
+//            if (ContextCompat.checkSelfPermission(cntxt, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             distance.setText(results + " KM");
-
+//            }
 
         }
 

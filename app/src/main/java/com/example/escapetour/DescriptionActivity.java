@@ -69,13 +69,14 @@ public class DescriptionActivity extends AppCompatActivity implements OnMapReady
         setContentView(R.layout.activity_description);
 
 
-        try {
-            if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
+//            }
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
         getLocation();
 
 
@@ -147,7 +148,8 @@ public class DescriptionActivity extends AppCompatActivity implements OnMapReady
             current_longitude = gpsTracker.getLongitude();
 
         } else {
-            gpsTracker.showSettingsAlert();
+
+//            gpsTracker.showSettingsAlert();
         }
     }
 
@@ -284,7 +286,12 @@ public class DescriptionActivity extends AppCompatActivity implements OnMapReady
         point = new LatLng(dpm.getLatitude(), dpm.getLongitude());
         current_point = new LatLng(current_latitude, current_longitude);
         Location.distanceBetween(dpm.getLatitude(), dpm.getLongitude(), current_latitude, current_longitude, results);
-        measure_distance.setText(String.format("%.2f", results[0] / 1000) + " KM Away");
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            measure_distance.setVisibility(View.GONE);
+        } else {
+            measure_distance.setText(String.format("%.2f", results[0] / 1000) + " KM Away");
+        }
         mMap.addPolyline((new PolylineOptions()).add(current_point, point).width(10).color(Color.BLUE).geodesic(true));
 //        Toast.makeText(this, "Distance "+distance1, Toast.LENGTH_LONG).show();
 
