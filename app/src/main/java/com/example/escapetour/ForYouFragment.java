@@ -163,7 +163,7 @@ public class ForYouFragment extends Fragment {
                 Set<String> addedNodeIds = new HashSet<>();
                 for (DataSnapshot childSnapshot : snapshot.getChildren()) {
                     model item = childSnapshot.getValue(model.class);
-                    String nodeId = childSnapshot.getKey();
+                    String nodeId = childSnapshot.getKey(); //dd
                     if (!addedNodeIds.contains(nodeId)) {
                         double latitude = item.getLatitude();
                         double longitude = item.getLongitude();
