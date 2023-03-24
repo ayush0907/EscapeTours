@@ -224,9 +224,7 @@ public class LocationMapActivity extends AppCompatActivity implements OnMapReady
                 break;
 
             case android.R.id.home:
-                Intent intent = new Intent(this, DescriptionActivity.class);
-                startActivity(intent);
-                finish();
+              super.onBackPressed();
                 return true;
         }
 

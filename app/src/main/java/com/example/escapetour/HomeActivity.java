@@ -193,6 +193,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 if (currentFragment instanceof HomeFragment) {
                     drawerLayout.closeDrawer(GravityCompat.START);
                 } else if (currentFragment instanceof ContactUsFragment) {
+
 //                    fragment =new HomeFragment();
                     ContactUsFragment.backpressedlistener.onBackPressed();
                 } else {
@@ -253,6 +254,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    public void onBackPressed() {
+
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
 
 //    public void onBackPressed() {
 //        drawerLayout = findViewById(R.id.drawer);

@@ -8,6 +8,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -120,17 +121,17 @@ public class ContactUsFragment extends Fragment implements Backpressedlisterner 
 
     @Override
     public void onBackPressed() {
-        // Get the current fragment manager
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
 
-        // Check if there are any fragments in the back stack
-        if (fragmentManager.getBackStackEntryCount() > 0) {
-            // Pop the top fragment off the back stack
-            fragmentManager.popBackStack();
-        } else {
-            // If there are no fragments in the back stack, call the super method to exit the app
-            onBackPressed();
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+            if (fragmentManager.getBackStackEntryCount() > 0) {
+                fragmentManager.popBackStack();
+            } else {
+                onBackPressed();
+            }
         }
+
     }
 }
 //    @Override

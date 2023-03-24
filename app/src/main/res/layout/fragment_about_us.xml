@@ -1,22 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/contact_us_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/contact_us_fragment"
-    android:orientation="vertical"
     android:background="@color/white"
+    android:orientation="vertical"
     tools:context=".AboutUsFragment">
 
-    <include
-        layout="@layout/normal_tool_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="About Us" />
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/normal_tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize" />
 
 
-</LinearLayout>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_5sdp"
+                    android:layout_marginVertical="@dimen/_10sdp"
+                    android:elevation="@dimen/_20sdp"
+                    app:cardPreventCornerOverlap="true"
+                    app:cardCornerRadius="@dimen/_10sdp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="@dimen/_10sdp">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_250sdp"
+                            android:layout_marginHorizontal="@dimen/_10sdp"
+                            android:src="@drawable/splash"
+                            android:scaleType="fitXY" />
+
+
+                    </LinearLayout>
+
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_5sdp"
+                    android:layout_marginVertical="@dimen/_10sdp"
+                    android:elevation="@dimen/_20sdp"
+                    app:cardPreventCornerOverlap="true"
+                    app:cardCornerRadius="@dimen/_10sdp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_10sdp">
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:textSize="@dimen/_14ssp"
+                            android:text="Welcome to Escape Tours, your tourist app for discovering new and exciting places to visit! Our team is passionate about travel and exploration, and we created Escape Tours appliation to help others and experience the thrill of discovering new destinations." />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:textSize="@dimen/_14ssp"
+                            android:layout_marginVertical="@dimen/_5sdp"
+                            android:text="  Our app features has a wide range of categories, from restaurants and bars to historical landmarks, scenic hikes, wildlife also. We believe that there's something for everyone to discover, whether you're a seasoned traveler or just looking for a fun weekend activity." />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:textSize="@dimen/_14ssp"
+                            android:layout_marginVertical="@dimen/_5sdp"
+                            android:text="  Our app allows you to explore new places and discover hidden gems near you. With our unique features, you can calculate the distance between your current location and your desired destination, as well as view the location on a map." />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:textSize="@dimen/_14ssp"
+                            android:layout_marginVertical="@dimen/_5sdp"
+                            android:text="  Additionally, you can view photos of places you are interested in, giving you a better idea of what to expect and helping you decide which places to visit. Our app is designed to be user-friendly and intuitive, making it easy for you to plan your next adventure." />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/_14ssp"
+                            android:layout_marginVertical="@dimen/_5sdp"
+                            android:text="  At Escape Tours, we're committed to providing our users with the most up-to-date and accurate information possible. We work hard to ensure that our listings are verified and regularly updated, so you can trust that the information you find on our app is reliable." />
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:textSize="@dimen/_14ssp"
+                            android:layout_marginVertical="@dimen/_5sdp"
+                            android:text="  If you have any feedback or suggestions for us, please don't hesitate to get in touch. We're always looking for ways to improve and make Escape Tours the best possible resource for travelers everywhere." />
+
+
+                    </LinearLayout>
+
+
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

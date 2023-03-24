@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -40,8 +41,9 @@ public class SearchBoxFragment extends Fragment implements Backpressedlisterner 
     private List<MyModel> dataList;
     public static SearchBoxFragment backpressedlistener;
     private DatabaseReference databaseRef;
-
+    private DrawerLayout drawerLayout;
     private MaterialSearchView searchView;
+    private String text;
 
     public SearchBoxFragment() {
     }
@@ -50,7 +52,8 @@ public class SearchBoxFragment extends Fragment implements Backpressedlisterner 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_search_box, container, false);
-
+        drawerLayout = getActivity().findViewById(R.id.drawer);
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         databaseRef = FirebaseDatabase.getInstance("https://escape-tours-c343a-default-rtdb.firebaseio.com/").getReference().child("entertainment");
         databaseRef.keepSynced(true);
 
@@ -80,11 +83,15 @@ public class SearchBoxFragment extends Fragment implements Backpressedlisterner 
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
-//                if (newText.length() == 0) {
-//                    recyclerView.setVisibility(View.INVISIBLE);
-//                }
-//                    recyclerView.setVisibility(View.INVISIBLE);
+
+
+                if (newText.length() > 0) {
+                    adapter.getFilter().filter(newText);
+                    recyclerView.setVisibility(View.VISIBLE);
+                } else {
+                    recyclerView.setVisibility(View.INVISIBLE);
+                }
+//
 
 
                 return true;
@@ -230,6 +237,7 @@ public class SearchBoxFragment extends Fragment implements Backpressedlisterner 
     public void onBackPressed() {
 //        searchView.closeSearch();
 //        searchView.clearFocus();
+
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager(); // or getChildFragmentManager() if it's a child fragment
         fragmentManager.popBackStack();
 

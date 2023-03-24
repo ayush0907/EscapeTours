@@ -1,9 +1,9 @@
 package com.example.escapetour;
+import java.io.Serializable;
 
 public class model {
     public String name, img1url, id, city;
     public Double latitude, longitude;
-
 
     public model() {
     }

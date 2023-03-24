@@ -10,6 +10,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -23,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -53,10 +55,16 @@ public class HomeFragment extends Fragment {
     String searchText;
     TabLayout tabLayout;
     ViewPagerAdapter viewPagerAdapter;
+    LinearLayout linearLayout;
 
     public HomeFragment() {
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+    }
 
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
@@ -83,6 +91,7 @@ public class HomeFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_home, container, false);
         toolbar = view.findViewById(R.id.home_toolbar);
         toolbar.setTitle("");
+        linearLayout = view.findViewById(R.id.search_linear_layout);
         drawerLayout = getActivity().findViewById(R.id.drawer);
         toggle = new ActionBarDrawerToggle(getActivity(), drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(toggle);
@@ -90,6 +99,14 @@ public class HomeFragment extends Fragment {
         toggle.syncState();
         toggle.getDrawerArrowDrawable().setColor(ContextCompat.getColor(getActivity(), R.color.white));
         toolbar_menu_item();
+
+        linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppCompatActivity activity = (AppCompatActivity) getContext();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.flContent, new SearchBoxFragment()).addToBackStack(null).commit();
+            }
+        });
 
         tabSetUp();
 
@@ -128,15 +145,6 @@ public class HomeFragment extends Fragment {
                         startActivity(Intent.createChooser(shareIntent, "Share via"));
                         break;
 
-                    case R.id.search_view:
-
-//                        Intent intent=new Intent(getActivity(),SearchActivity.class);
-//                        startActivity(intent);
-
-
-                        AppCompatActivity activity = (AppCompatActivity) getContext();
-                        activity.getSupportFragmentManager().beginTransaction().replace(R.id.flContent, new SearchBoxFragment()).addToBackStack(null).commit();
-                        break;
 
                 }
 

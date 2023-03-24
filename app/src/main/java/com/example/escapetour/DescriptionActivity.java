@@ -18,6 +18,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,6 +41,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.smarteist.autoimageslider.SliderView;
 
@@ -47,6 +49,7 @@ import org.w3c.dom.Document;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class DescriptionActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -62,40 +65,35 @@ public class DescriptionActivity extends AppCompatActivity implements OnMapReady
     Button map_view_button, map_navigate_button;
     private DatabaseReference dbreference;
     DescriptionModel dpm = new DescriptionModel();
+    Query query;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_description);
+        place_id = getIntent().getExtras().get("place_id").toString();
+        dbreference = FirebaseDatabase.getInstance("https://escape-tours-c343a-default-rtdb.firebaseio.com/").getReference();
+        query = dbreference.child("entertainment").child(place_id);
 
-
-        try {
-            if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        getLocation();
-
-
+        viewSet();
         Toolbar toolbar = findViewById(R.id.normal_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        viewSet();
-
-        place_id = getIntent().getExtras().get("place_id").toString();
-
-
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map12);
-        mapFragment.getMapAsync(this);
+//        try {
+//            if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 //
-        measure_distance = findViewById(R.id.measure_distance);
+////                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
+//            }
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
 
-        map_view_button = findViewById(R.id.map_view_button);
+//        getLocation();
+
+//
         map_view_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,39 +104,30 @@ public class DescriptionActivity extends AppCompatActivity implements OnMapReady
             }
         });
 
-        map_navigate_button = findViewById(R.id.map_navigate_button);
         map_navigate_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String url = "http://maps.google.com/maps?daddr=" + dpm.getAddress();
                 Intent intent1 = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 startActivity(intent1);
+//                String uri = "http://maps.google.com/maps?q=" + dpm.getLatitude() + "," + dpm.getLongitude();
+//                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+//                startActivity(intent);
+//                String plusCode = "89XX+948, Jahaj Mahal Internal Rd, Mandu, Mandav, Madhya Pradesh 454010";
+//
+
 
             }
         });
 
-//        MyAsyncTasks myAsyncTasks = new MyAsyncTasks();
-//        myAsyncTasks.execute();
         dataFetch();
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map12);
+        mapFragment.getMapAsync(this);
+        findViewById(R.id.progressBar).setVisibility(View.GONE);
 
     }
 
-//    public class MyAsyncTasks extends AsyncTask<URL, Integer, Long> {
-//        public String doInBackground(URL... urls) {
-//
-//            return "sssss";
-//
-//        }
-//
-//
-//        protected void onProgressUpdate(Integer... progress) {
-//
-//        }
-//
-//        protected void onPostExecute(Long result) {
-//
-//        }
-//    }
 
     private void getLocation() {
         gpsTracker = new GpsTracker(this);
@@ -147,13 +136,13 @@ public class DescriptionActivity extends AppCompatActivity implements OnMapReady
             current_longitude = gpsTracker.getLongitude();
 
         } else {
-            gpsTracker.showSettingsAlert();
+
+//            gpsTracker.showSettingsAlert();
         }
     }
 
     public void dataFetch() {
-        dbreference = FirebaseDatabase.getInstance("https://escape-tours-c343a-default-rtdb.firebaseio.com/").getReference().child("entertainment").child(place_id);
-        dbreference.addValueEventListener(new ValueEventListener() {
+        query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -165,29 +154,10 @@ public class DescriptionActivity extends AppCompatActivity implements OnMapReady
                     }
 
                 }
-//                name = snapshot.child("name").getValue(String.class);
-//                address = snapshot.child("address").getValue(String.class);
-//                description = snapshot.child("description").getValue(String.class);
-//                hours = snapshot.child("hours").getValue(String.class);
-//                facilities = snapshot.child("facilities").getValue(String.class);
-//                website = snapshot.child("website").getValue(String.class);
-//                images = snapshot.child("images").getValue(Integer.class);
-//
-//                for (int i = 0, j = 1; i < images; i++, j++) {
-//                    img_url[i] = snapshot.child("img" + j + "url").getValue(String.class);
-//                }
-////                img1url = snapshot.child("img1url").getValue(String.class);
-////                img2url = snapshot.child("img2url").getValue(String.class);
-////                img3url = snapshot.child("img3url").getValue(String.class);
-////                img4url = snapshot.child("img4url").getValue(String.class);
-////                img5url = snapshot.child("img5url").getValue(String.class);
-//                phone = snapshot.child("phone").getValue(String.class);
-//                latitude = snapshot.child("latitude").getValue(Double.class);
-//                longitude = snapshot.child("longitude").getValue(Double.class);
+                point = new LatLng(dpm.getLatitude(), dpm.getLongitude());
                 imageSlider();
                 valueSet();
             }
-
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -195,8 +165,8 @@ public class DescriptionActivity extends AppCompatActivity implements OnMapReady
             }
         });
 
-    }
 
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -220,9 +190,7 @@ public class DescriptionActivity extends AppCompatActivity implements OnMapReady
 
             case android.R.id.home:
                 super.onBackPressed();
-//                Intent intent = new Intent(this, HomeActivity.class);
-//                startActivity(intent);
-//                finish();
+//
                 return true;
         }
 
@@ -240,10 +208,14 @@ public class DescriptionActivity extends AppCompatActivity implements OnMapReady
         holder11.setText(dpm.getWebsite());
         holder12.setText(dpm.getDescription());
         getSupportActionBar().setTitle(dpm.getName());
+//        findViewById(R.id.progressBar).setVisibility(View.GONE);
 
     }
 
     public void viewSet() {
+        measure_distance = findViewById(R.id.measure_distance);
+        map_view_button = findViewById(R.id.map_view_button);
+        map_navigate_button = findViewById(R.id.map_navigate_button);
         holder6 = findViewById(R.id.holder6);
         holder7 = findViewById(R.id.holder7);
         holder8 = findViewById(R.id.holder8);
@@ -277,21 +249,27 @@ public class DescriptionActivity extends AppCompatActivity implements OnMapReady
 
     }
 
-
     public void onMapReady(GoogleMap googleMap) {
+        try {
+            if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                getLocation();
+//                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         mMap = googleMap;
-
-        point = new LatLng(dpm.getLatitude(), dpm.getLongitude());
         current_point = new LatLng(current_latitude, current_longitude);
-        Location.distanceBetween(dpm.getLatitude(), dpm.getLongitude(), current_latitude, current_longitude, results);
-        measure_distance.setText(String.format("%.2f", results[0] / 1000) + " KM Away");
-        mMap.addPolyline((new PolylineOptions()).add(current_point, point).width(10).color(Color.BLUE).geodesic(true));
-//        Toast.makeText(this, "Distance "+distance1, Toast.LENGTH_LONG).show();
 
-//        Toast.makeText(this, "Hello"+ Arrays.toString(results), Toast.LENGTH_SHORT).show();
-//        distance = SphericalUtil.computeDistanceBetween(current_point,point);
-//        Location.distanceBetween(current_latitude, current_longitude,latitude, longitude, results);
-//        Toast.makeText(this, "Hello" + results[0], Toast.LENGTH_SHORT).show();
+        Location.distanceBetween(dpm.getLatitude(), dpm.getLongitude(), current_latitude, current_longitude, results);
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            measure_distance.setVisibility(View.GONE);
+        } else {
+            measure_distance.setText(String.format("%.2f", results[0] / 1000) + " KM Away");
+        }
+        mMap.addPolyline((new PolylineOptions()).add(current_point, point).width(10).color(Color.BLUE).geodesic(true));
         mMap.addMarker(new MarkerOptions().position(current_point).title("I am here"));
         Marker destination_marker = mMap.addMarker(new MarkerOptions().position(point).title(dpm.getName()).icon(BitmapFromVector(getApplicationContext(), R.drawable.ic_baseline_flag_24)));
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point, 12));
@@ -303,15 +281,9 @@ public class DescriptionActivity extends AppCompatActivity implements OnMapReady
                 // When clicked on map
                 // Initialize marker options
                 MarkerOptions markerOptions = new MarkerOptions();
-
-                // Set position of marker
                 markerOptions.position(point);
-                // Set title of marker
                 markerOptions.title(dpm.getName());
-                // Remove all marker
-                // Animating to zoom the marker
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point, 12));
-                // Add marker on map
                 googleMap.addMarker(markerOptions);
             }
         });
@@ -319,24 +291,16 @@ public class DescriptionActivity extends AppCompatActivity implements OnMapReady
     }
 
     BitmapDescriptor BitmapFromVector(Context context, int vectorResId) {
-        // below line is use to generate a drawable.
         Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
 
-        // below line is use to set bounds to our vector drawable.
         vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
 
-        // below line is use to create a bitmap for our
-        // drawable which we have added.
         Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
 
-        // below line is use to add bitmap in our canvas.
         Canvas canvas = new Canvas(bitmap);
 
-        // below line is use to draw our
-        // vector drawable in canvas.
         vectorDrawable.draw(canvas);
 
-        // after generating our bitmap we are returning our bitmap.
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 

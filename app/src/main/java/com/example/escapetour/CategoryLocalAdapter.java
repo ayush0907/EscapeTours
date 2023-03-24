@@ -1,7 +1,9 @@
 package com.example.escapetour;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -58,7 +61,13 @@ public class CategoryLocalAdapter extends RecyclerView.Adapter<CategoryLocalAdap
         latitude = item.getLatitude();
         longitude = item.getLongitude();
 
-        getLocation(cntxt);
+//        getLocation(cntxt);
+        if (ContextCompat.checkSelfPermission(cntxt, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            holder.distance.setVisibility(View.GONE);
+        } else {
+            getLocation(cntxt);
+            holder.distance.setVisibility(View.VISIBLE);
+        }
         holder.bind(item, String.format("%.2f", results[0] / 1000));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
