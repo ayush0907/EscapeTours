@@ -211,7 +211,7 @@ public class DetailsFragment extends Fragment implements Backpressedlisterner {
 
     private void maAttach() {
         getLocation();
-        supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map12);
+        supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         supportMapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {

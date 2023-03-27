@@ -32,7 +32,7 @@ public class MyLocalAdapter extends RecyclerView.Adapter<MyLocalAdapter.MyViewHo
     Context cntxt;
     ProgressBar progressBar;
     float[] results = new float[1];
-
+    private boolean isFirstTap = true;
 
     public MyLocalAdapter(Context context, List<model> dataList, ProgressBar progressBar) {
         mData = dataList;
@@ -77,15 +77,19 @@ public class MyLocalAdapter extends RecyclerView.Adapter<MyLocalAdapter.MyViewHo
             @Override
             public void onClick(View view) {
 //
-                progressBar.setVisibility(View.VISIBLE);
-
-                AppCompatActivity context = (AppCompatActivity) view.getContext();
-//                context.findViewById(R.id.main_home_content).setVisibility(View.GONE);
-                Intent intent = new Intent(context, DescriptionActivity.class);
+//                progressBar.setVisibility(View.VISIBLE);
+                if (isFirstTap) {
+                    // Show progress bar
+                    progressBar.setVisibility(View.VISIBLE);
+                    HomeActivity context = (HomeActivity) view.getContext();
+                    context.findViewById(R.id.main_home_content).setVisibility(View.GONE);
+                }
+                Intent intent = new Intent(cntxt, DescriptionActivity.class);
                 intent.putExtra("place_id", place_id);
-                context.startActivity(intent);
-//
-                progressBar.setVisibility(View.GONE);
+                cntxt.startActivity(intent);
+
+
+                isFirstTap = false;
             }
         });
 

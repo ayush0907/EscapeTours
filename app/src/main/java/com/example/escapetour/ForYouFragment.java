@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.location.Location;
@@ -124,8 +125,12 @@ public class ForYouFragment<REQUEST_CODE_PERMISSIONS> extends Fragment {
                              Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_for_you, container, false);
-
-
+        view.findViewById(R.id.place_near_you_upper_layout).setVisibility(View.GONE);
+        view.findViewById(R.id.popular_places_upper_layout).setVisibility(View.GONE);
+        view.findViewById(R.id.talk_with_nature_upper_layout).setVisibility(View.GONE);
+        view.findViewById(R.id.go_for_shopping_upper_layout).setVisibility(View.GONE);
+        view.findViewById(R.id.for_history_lovers_upper_layout).setVisibility(View.GONE);
+        view.findViewById(R.id.kids_section_upper_layout).setVisibility(View.GONE);
         firebaseDatabase = FirebaseDatabase.getInstance("https://escape-tours-c343a-default-rtdb.firebaseio.com");
         myRef = firebaseDatabase.getReference("entertainment");
         main_progress_bar = view.findViewById(R.id.progressBar);
@@ -187,40 +192,44 @@ public class ForYouFragment<REQUEST_CODE_PERMISSIONS> extends Fragment {
 
         } else {
             recview1.setVisibility(View.VISIBLE);
-//            fetch_data_recview_1();
-            MyTask task1 = new MyTask(view, query1, recview1, R.id.place_near_you_upper_layout, view.getContext(), 1);
-            task1.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            fetch_data_recview_1();
+//            MyTask task1 = new MyTask(view, query1, recview1, R.id.place_near_you_upper_layout, view.getContext(), 1);
+//            task1.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         }
-
+        fetch_data_recview_2();
+        fetch_data_recview_3();
         Handler handler = new Handler();
 
-        MyTask task2 = new MyTask(view, query2, recview2, R.id.popular_places_upper_layout, view.getContext(), 2);
-        task2.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-        MyTask task3 = new MyTask(view, query3, recview3, R.id.talk_with_nature_upper_layout, view.getContext(), 2);
-        task3.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-        MyTask task4 = new MyTask(view, query4, recview4, R.id.go_for_shopping_upper_layout, view.getContext(), 2);
-
-        MyTask task5 = new MyTask(view, query5, recview5, R.id.for_history_lovers_upper_layout, view.getContext(), 2);
-
-        MyTask task6 = new MyTask(view, query6, recview6, R.id.kids_section_upper_layout, view.getContext(), 2);
+//        MyTask task2 = new MyTask(view, query2, recview2, R.id.popular_places_upper_layout, view.getContext(), 2);
+//        task2.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 //
-//        handler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
+//        MyTask task3 = new MyTask(view, query3, recview3, R.id.talk_with_nature_upper_layout, view.getContext(), 2);
+//        task3.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 //
-//            }
-//        }, 5000);
+//        MyTask task4 = new MyTask(view, query4, recview4, R.id.go_for_shopping_upper_layout, view.getContext(), 2);
 //
-        task4.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+//        MyTask task5 = new MyTask(view, query5, recview5, R.id.for_history_lovers_upper_layout, view.getContext(), 2);
+//
+//        MyTask task6 = new MyTask(view, query6, recview6, R.id.kids_section_upper_layout, view.getContext(), 2);
+//
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
 
-
-        task5.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-
-        task6.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                fetch_data_recview_4();
+                fetch_data_recview_5();
+                fetch_data_recview_6();
+            }
+        }, 2000);
+//
+//        task4.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+//
+//
+//        task5.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+//
+//
+//        task6.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
 
         return view;
@@ -294,24 +303,29 @@ public class ForYouFragment<REQUEST_CODE_PERMISSIONS> extends Fragment {
                     new ForYouFragment<>();
 
                     recview1.setVisibility(View.VISIBLE);
-//                    fetch_data_recview_1();
-                    MyTask task1 = new MyTask(view, query1, recview1, R.id.place_near_you_upper_layout, view.getContext(), 1);
-                    task1.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-                    MyTask task2 = new MyTask(view, query2, recview2, R.id.popular_places_upper_layout, view.getContext(), 2);
-                    task2.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-                    MyTask task3 = new MyTask(view, query3, recview3, R.id.talk_with_nature_upper_layout, view.getContext(), 2);
-                    task3.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-                    MyTask task4 = new MyTask(view, query4, recview4, R.id.go_for_shopping_upper_layout, view.getContext(), 2);
-                    task4.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-                    MyTask task5 = new MyTask(view, query5, recview5, R.id.for_history_lovers_upper_layout, view.getContext(), 2);
-                    task5.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-                    MyTask task6 = new MyTask(view, query6, recview6, R.id.kids_section_upper_layout, view.getContext(), 2);
-                    task6.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                    fetch_data_recview_1();
+                    fetch_data_recview_2();
+                    fetch_data_recview_3();
+                    fetch_data_recview_4();
+                    fetch_data_recview_5();
+                    fetch_data_recview_6();
+//                    MyTask task1 = new MyTask(view, query1, recview1, R.id.place_near_you_upper_layout, view.getContext(), 1);
+//                    task1.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+//
+//                    MyTask task2 = new MyTask(view, query2, recview2, R.id.popular_places_upper_layout, view.getContext(), 2);
+//                    task2.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+//
+//                    MyTask task3 = new MyTask(view, query3, recview3, R.id.talk_with_nature_upper_layout, view.getContext(), 2);
+//                    task3.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+//
+//                    MyTask task4 = new MyTask(view, query4, recview4, R.id.go_for_shopping_upper_layout, view.getContext(), 2);
+//                    task4.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+//
+//                    MyTask task5 = new MyTask(view, query5, recview5, R.id.for_history_lovers_upper_layout, view.getContext(), 2);
+//                    task5.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+//
+//                    MyTask task6 = new MyTask(view, query6, recview6, R.id.kids_section_upper_layout, view.getContext(), 2);
+//                    task6.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 } else {
                     Toast.makeText(getActivity(), "Permission denied", Toast.LENGTH_SHORT).show();
                 }
@@ -404,215 +418,234 @@ public class ForYouFragment<REQUEST_CODE_PERMISSIONS> extends Fragment {
     }
 
 
-//    public void fetch_data_recview_1() {
-//
-//        List<model> data = new ArrayList<>();
-//        MyLocalAdapter adapterlocal = new MyLocalAdapter(getContext(), data, main_progress_bar);
-//        myRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                data.clear();
-//                Set<String> addedNodeIds = new HashSet<>();
-//                for (DataSnapshot childSnapshot : snapshot.getChildren()) {
-//                    model item = childSnapshot.getValue(model.class);
-//                    String nodeId = childSnapshot.getKey();
-//                    if (!addedNodeIds.contains(nodeId)) {
-//                        double latitude = item.getLatitude();
-//                        double longitude = item.getLongitude();
-//                        float distance = getLocation(latitude, longitude);
-//                        if (distance < 30) {
-//                        data.add(item);
-//                        addedNodeIds.add(nodeId);
-//                        }
-//                    }
-//                }
-//                if (data.size() == 0) {
-//                    view.findViewById(R.id.place_near_you_upper_layout).setVisibility(View.GONE);
-//                    recview1.setVisibility(View.GONE);
-//                } else {
-//                    adapterlocal.setItems(data);
-//                    recview1.setAdapter(adapterlocal);
-////                    view.findViewById(R.id.place_near_you_upper_layout).setVisibility(View.VISIBLE);
-////                    view.findViewById(R.id.place_near_button).setVisibility(View.VISIBLE);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Log.e("MyApp", "DatabaseError in onCancelled: " + error.getMessage());
-//
-//            }
-//        });
-//
-//    }
+    public void fetch_data_recview_1() {
 
-//    public void fetch_data_recview_2() {
-//        List<model> data = new ArrayList<>();
-//        MyLocalAdapter adapterlocal = new MyLocalAdapter(getContext(), data, main_progress_bar);
-//        myRef.orderByChild("cat").equalTo("popular").addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                data.clear();
-//                Set<String> addedNodeIds = new HashSet<>();
-//                for (DataSnapshot childSnapshot : snapshot.getChildren()) {
-//                    model item = childSnapshot.getValue(model.class);
-////                    String nodeId = childSnapshot.getKey();
-////                    if (!addedNodeIds.contains(nodeId)) {
-//                    data.add(item);
-////                    }
-////
-//                }
-//                if (data.size() == 0) {
-//                    view.findViewById(R.id.popular_places_upper_layout).setVisibility(View.GONE);
-//                    recview2.setVisibility(View.GONE);
-//                } else {
-//                    adapterlocal.setItems(data);
-//                    recview2.setAdapter(adapterlocal);
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Log.e("MyApp", "DatabaseError in onCancelled: " + error.getMessage());
-//            }
-//        });
-//
-//    }
+        List<model> data = new ArrayList<>();
+        MyLocalAdapter adapterlocal = new MyLocalAdapter(getContext(), data, main_progress_bar);
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                data.clear();
+                Set<String> addedNodeIds = new HashSet<>();
+                for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                    model item = childSnapshot.getValue(model.class);
+                    String nodeId = childSnapshot.getKey();
+                    if (!addedNodeIds.contains(nodeId)) {
+                        double latitude = item.getLatitude();
+                        double longitude = item.getLongitude();
+                        float distance = getLocation(latitude, longitude);
+                        if (distance < 50) {
+                            data.add(item);
+                            addedNodeIds.add(nodeId);
+                        }
+                    }
+                }
+                if (data.size() == 0) {
+                    view.findViewById(R.id.place_near_you_upper_layout).setVisibility(View.GONE);
+                    recview1.setVisibility(View.GONE);
+                } else {
+                    adapterlocal.setItems(data);
+                    recview1.setAdapter(adapterlocal);
+                    view.findViewById(R.id.place_near_you_upper_layout).setVisibility(View.VISIBLE);
+//                    view.findViewById(R.id.place_near_you_upper_layout).setVisibility(View.VISIBLE);
+//                    view.findViewById(R.id.place_near_button).setVisibility(View.VISIBLE);
+                }
+                view.findViewById(R.id.no_internet).setVisibility(View.GONE);
+                view.findViewById(R.id.retry_home_button).setVisibility(View.GONE);
+                view.findViewById(R.id.main_home_content).setVisibility(View.VISIBLE);
+            }
 
-//    public void fetch_data_recview_3() {
-//        List<model> data = new ArrayList<>();
-//        MyLocalAdapter adapterlocal = new MyLocalAdapter(getContext(), data, main_progress_bar);
-//        myRef.orderByChild("cat").equalTo("nature").addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                data.clear();
-//                Set<String> addedNodeIds = new HashSet<>();
-//                for (DataSnapshot childSnapshot : snapshot.getChildren()) {
-//                    model item = childSnapshot.getValue(model.class);
-//                    String nodeId = childSnapshot.getKey();
-//                    if (!addedNodeIds.contains(nodeId)) {
-//                        data.add(item);
-//                    }
-//                }
-//                if (data.size() == 0) {
-//                    view.findViewById(R.id.talk_with_nature_upper_layout).setVisibility(View.GONE);
-//                    recview3.setVisibility(View.GONE);
-//                } else {
-//                    adapterlocal.setItems(data);
-//                    recview3.setAdapter(adapterlocal);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Log.e("MyApp", "DatabaseError in onCancelled: " + error.getMessage());
-//            }
-//        });
-//    }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("MyApp", "DatabaseError in onCancelled: " + error.getMessage());
 
-//    private void fetch_data_recview_4() {
-//        List<model> data = new ArrayList<>();
-//        MyLocalAdapter adapterlocal = new MyLocalAdapter(getContext(), data, main_progress_bar);
-//        myRef.orderByChild("cat").equalTo("shopping").addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                data.clear();
-//                Set<String> addedNodeIds = new HashSet<>();
-//                for (DataSnapshot childSnapshot : snapshot.getChildren()) {
-//                    model item = childSnapshot.getValue(model.class);
-//                    String nodeId = childSnapshot.getKey();
-//                    if (!addedNodeIds.contains(nodeId)) {
-//                        data.add(item);
-//                    }
-//                }
-//                if (data.size() == 0) {
-//                    view.findViewById(R.id.go_for_shopping_upper_layout).setVisibility(View.GONE);
-//                    recview4.setVisibility(View.GONE);
-//                } else {
-//                    adapterlocal.setItems(data);
-//                    recview4.setAdapter(adapterlocal);
-//
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Log.e("MyApp", "DatabaseError in onCancelled: " + error.getMessage());
-//            }
-//        });
-//    }
+            }
+        });
 
-//    private void fetch_data_recview_5() {
-//        List<model> data = new ArrayList<>();
-//        MyLocalAdapter adapterlocal = new MyLocalAdapter(getContext(), data, main_progress_bar);
-//
-//        myRef.orderByChild("cat").equalTo("history")
-//                .addValueEventListener(new ValueEventListener() {
-//
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                        data.clear();
-//                        Set<String> addedNodeIds = new HashSet<>();
-//                        for (DataSnapshot childSnapshot : snapshot.getChildren()) {
-//                            model item = childSnapshot.getValue(model.class);
-//                            String nodeId = childSnapshot.getKey();
-//                            if (!addedNodeIds.contains(nodeId)) {
-//                                data.add(item);
-////
-//                            }
-//                        }
-//                        if (data.size() == 0) {
-//                            view.findViewById(R.id.for_history_lovers_upper_layout).setVisibility(View.GONE);
-//                            recview5.setVisibility(View.GONE);
-//                        } else {
-//                            adapterlocal.setItems(data);
-//                            recview5.setAdapter(adapterlocal);
-//                        }
-//
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) {
-//                        Log.e("MyApp", "DatabaseError in onCancelled: " + error.getMessage());
-//                    }
-//                });
-//    }
+    }
 
-//    private void fetch_data_recview_6() {
-//        List<model> data = new ArrayList<>();
-//        MyLocalAdapter adapterlocal = new MyLocalAdapter(getContext(), data, main_progress_bar);
-//        myRef.orderByChild("cat").equalTo("kids")
-//                .addValueEventListener(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                        data.clear();
-//                        Set<String> addedNodeIds = new HashSet<>();
-//                        for (DataSnapshot childSnapshot : snapshot.getChildren()) {
-//                            model item = childSnapshot.getValue(model.class);
-//                            String nodeId = childSnapshot.getKey();
-//                            if (!addedNodeIds.contains(nodeId)) {
-//                                data.add(item);
-//                            }
-//                        }
-//                        if (data.size() == 0) {
-//                            view.findViewById(R.id.kids_section_upper_layout).setVisibility(View.GONE);
-//                            recview6.setVisibility(View.GONE);
-//                        } else {
-//                            adapterlocal.setItems(data);
-//                            recview6.setAdapter(adapterlocal);
-//                            view.findViewById(R.id.progressBar).setVisibility(View.GONE);
-//                        }
+    public void fetch_data_recview_2() {
+        List<model> data = new ArrayList<>();
+
+        MyLocalAdapter adapterlocal = new MyLocalAdapter(getContext(), data, main_progress_bar);
+        myRef.orderByChild("cat").equalTo("popular").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                data.clear();
+                Set<String> addedNodeIds = new HashSet<>();
+                for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                    model item = childSnapshot.getValue(model.class);
+                    String nodeId = childSnapshot.getKey();
+                    if (!addedNodeIds.contains(nodeId)) {
+                        data.add(item);
+                    }
 //
-//                    }
+                }
+                if (data.size() == 0) {
+                    view.findViewById(R.id.popular_places_upper_layout).setVisibility(View.GONE);
+                    recview2.setVisibility(View.GONE);
+                } else {
+                    adapterlocal.setItems(data);
+                    recview2.setAdapter(adapterlocal);
+                    view.findViewById(R.id.popular_places_upper_layout).setVisibility(View.VISIBLE);
+                }
+                view.findViewById(R.id.no_internet).setVisibility(View.GONE);
+                view.findViewById(R.id.retry_home_button).setVisibility(View.GONE);
+                view.findViewById(R.id.main_home_content).setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("MyApp", "DatabaseError in onCancelled: " + error.getMessage());
+            }
+        });
+
+    }
+
+    public void fetch_data_recview_3() {
+        List<model> data = new ArrayList<>();
+        MyLocalAdapter adapterlocal = new MyLocalAdapter(getContext(), data, main_progress_bar);
+        myRef.orderByChild("cat").equalTo("nature").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                data.clear();
+                Set<String> addedNodeIds = new HashSet<>();
+                for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                    model item = childSnapshot.getValue(model.class);
+                    String nodeId = childSnapshot.getKey();
+                    if (!addedNodeIds.contains(nodeId)) {
+                        data.add(item);
+                    }
+                }
+                if (data.size() == 0) {
+                    view.findViewById(R.id.talk_with_nature_upper_layout).setVisibility(View.GONE);
+                    recview3.setVisibility(View.GONE);
+                } else {
+                    adapterlocal.setItems(data);
+                    recview3.setAdapter(adapterlocal);
+                    view.findViewById(R.id.progressBar).setVisibility(View.GONE);
+                }
+                view.findViewById(R.id.no_internet).setVisibility(View.GONE);
+                view.findViewById(R.id.retry_home_button).setVisibility(View.GONE);
+                view.findViewById(R.id.main_home_content).setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("MyApp", "DatabaseError in onCancelled: " + error.getMessage());
+            }
+        });
+    }
+
+    private void fetch_data_recview_4() {
+        List<model> data = new ArrayList<>();
+        MyLocalAdapter adapterlocal = new MyLocalAdapter(getContext(), data, main_progress_bar);
+        myRef.orderByChild("cat").equalTo("shopping").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                data.clear();
+                Set<String> addedNodeIds = new HashSet<>();
+                for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                    model item = childSnapshot.getValue(model.class);
+                    String nodeId = childSnapshot.getKey();
+                    if (!addedNodeIds.contains(nodeId)) {
+                        data.add(item);
+                    }
+                }
+                if (data.size() == 0) {
+                    view.findViewById(R.id.go_for_shopping_upper_layout).setVisibility(View.GONE);
+                    recview4.setVisibility(View.GONE);
+                } else {
+                    adapterlocal.setItems(data);
+                    recview4.setAdapter(adapterlocal);
+                    view.findViewById(R.id.go_for_shopping_upper_layout).setVisibility(View.VISIBLE);
+                }
+                view.findViewById(R.id.no_internet).setVisibility(View.GONE);
+                view.findViewById(R.id.retry_home_button).setVisibility(View.GONE);
+                view.findViewById(R.id.main_home_content).setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("MyApp", "DatabaseError in onCancelled: " + error.getMessage());
+            }
+        });
+    }
+
+    private void fetch_data_recview_5() {
+        List<model> data = new ArrayList<>();
+        MyLocalAdapter adapterlocal = new MyLocalAdapter(getContext(), data, main_progress_bar);
+
+        myRef.orderByChild("cat").equalTo("history")
+                .addValueEventListener(new ValueEventListener() {
+
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        data.clear();
+                        Set<String> addedNodeIds = new HashSet<>();
+                        for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                            model item = childSnapshot.getValue(model.class);
+                            String nodeId = childSnapshot.getKey();
+                            if (!addedNodeIds.contains(nodeId)) {
+                                data.add(item);
 //
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) {
-//                        Log.e("MyApp", "DatabaseError in onCancelled: " + error.getMessage());
-//                    }
-//                });
-//    }
+                            }
+                        }
+                        if (data.size() == 0) {
+                            view.findViewById(R.id.for_history_lovers_upper_layout).setVisibility(View.GONE);
+                            recview5.setVisibility(View.GONE);
+                        } else {
+                            adapterlocal.setItems(data);
+                            recview5.setAdapter(adapterlocal);
+                            view.findViewById(R.id.for_history_lovers_upper_layout).setVisibility(View.VISIBLE);
+                        }
+                        view.findViewById(R.id.no_internet).setVisibility(View.GONE);
+                        view.findViewById(R.id.retry_home_button).setVisibility(View.GONE);
+                        view.findViewById(R.id.main_home_content).setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.e("MyApp", "DatabaseError in onCancelled: " + error.getMessage());
+                    }
+                });
+    }
+
+    private void fetch_data_recview_6() {
+        List<model> data = new ArrayList<>();
+        MyLocalAdapter adapterlocal = new MyLocalAdapter(getContext(), data, main_progress_bar);
+        myRef.orderByChild("cat").equalTo("kids")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        data.clear();
+                        Set<String> addedNodeIds = new HashSet<>();
+                        for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                            model item = childSnapshot.getValue(model.class);
+                            String nodeId = childSnapshot.getKey();
+                            if (!addedNodeIds.contains(nodeId)) {
+                                data.add(item);
+                            }
+                        }
+                        if (data.size() == 0) {
+                            view.findViewById(R.id.kids_section_upper_layout).setVisibility(View.GONE);
+                            recview6.setVisibility(View.GONE);
+                        } else {
+                            adapterlocal.setItems(data);
+                            recview6.setAdapter(adapterlocal);
+                            view.findViewById(R.id.kids_section_upper_layout).setVisibility(View.VISIBLE);
+                        }
+                        view.findViewById(R.id.no_internet).setVisibility(View.GONE);
+                        view.findViewById(R.id.retry_home_button).setVisibility(View.GONE);
+                        view.findViewById(R.id.main_home_content).setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.e("MyApp", "DatabaseError in onCancelled: " + error.getMessage());
+                    }
+                });
+    }
 
 
 //    public void img_taker() {
@@ -651,10 +684,18 @@ public class ForYouFragment<REQUEST_CODE_PERMISSIONS> extends Fragment {
         return results[0] / 1000;
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+
+    }
+
 
     @Override
     public void onStop() {
         super.onStop();
+        view.findViewById(R.id.progressBar).setVisibility(View.GONE);
+        view.findViewById(R.id.main_home_content).setVisibility(View.VISIBLE);
 //        adapter.stopListening();
     }
 
