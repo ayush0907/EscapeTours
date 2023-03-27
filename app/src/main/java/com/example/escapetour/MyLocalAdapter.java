@@ -80,12 +80,12 @@ public class MyLocalAdapter extends RecyclerView.Adapter<MyLocalAdapter.MyViewHo
                 progressBar.setVisibility(View.VISIBLE);
 
                 AppCompatActivity context = (AppCompatActivity) view.getContext();
-//                context.findViewById(R.id.main_home_content).setVisibility(View.GONE);
+                context.findViewById(R.id.main_home_content).setVisibility(View.GONE);
                 Intent intent = new Intent(context, DescriptionActivity.class);
                 intent.putExtra("place_id", place_id);
                 context.startActivity(intent);
 //
-                progressBar.setVisibility(View.GONE);
+//                progressBar.setVisibility(View.GONE);
             }
         });
 

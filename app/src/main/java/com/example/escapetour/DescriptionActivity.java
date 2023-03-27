@@ -26,6 +26,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -45,6 +50,9 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.smarteist.autoimageslider.SliderView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Document;
 
 import java.net.URL;
@@ -55,7 +63,7 @@ public class DescriptionActivity extends AppCompatActivity implements OnMapReady
 
     String place_id;
     private GoogleMap mMap;
-    TextView holder6, holder7, holder8, holder9, holder10, holder11, holder12, measure_distance;
+    TextView holder6, holder7, holder8, holder9, holder10, holder11, holder12, measure_distance, temperature;
     LatLng point, current_point;
     double current_latitude;
     double current_longitude;
@@ -66,6 +74,7 @@ public class DescriptionActivity extends AppCompatActivity implements OnMapReady
     private DatabaseReference dbreference;
     DescriptionModel dpm = new DescriptionModel();
     Query query;
+    String temperature_string;
 
 
     @Override
@@ -75,7 +84,7 @@ public class DescriptionActivity extends AppCompatActivity implements OnMapReady
         place_id = getIntent().getExtras().get("place_id").toString();
         dbreference = FirebaseDatabase.getInstance("https://escape-tours-c343a-default-rtdb.firebaseio.com/").getReference();
         query = dbreference.child("entertainment").child(place_id);
-
+//        temperature = findViewById(R.id.temperature);
         viewSet();
         Toolbar toolbar = findViewById(R.id.normal_toolbar);
         setSupportActionBar(toolbar);
@@ -155,6 +164,10 @@ public class DescriptionActivity extends AppCompatActivity implements OnMapReady
 
                 }
                 point = new LatLng(dpm.getLatitude(), dpm.getLongitude());
+//                WeatherApiClient Weatherdata=new WeatherApiClient();
+//                Weatherdata.getCurrentWeather(dpm.getLatitude(), dpm.getLongitude()) ;
+
+
                 imageSlider();
                 valueSet();
             }
@@ -201,6 +214,7 @@ public class DescriptionActivity extends AppCompatActivity implements OnMapReady
     public void valueSet() {
 
         holder6.setText(dpm.getName());
+//        temperature.setText(temperature_string);
         holder7.setText(dpm.getFacilities());
         holder8.setText(dpm.getHours());
         holder9.setText(dpm.getAddress());
@@ -305,4 +319,68 @@ public class DescriptionActivity extends AppCompatActivity implements OnMapReady
     }
 
 
+//    @Override
+//    public void onWeatherDataReceived(double temperature, int humidity, String description, String icon) {
+//
+//    }
+//
+//    @Override
+//    public void onWeatherDataError(String errorMessage) {
+//
+//    }
+//
+//    @Override
+//    public Context getContext() {
+//        return null;
+//    }
+//
+//    public class WeatherApiClient {
+//        private static final String BASE_URL = "https://api.openweathermap.org/data/2.5/weather";
+//        private static final String APP_ID = "YOUR_API_KEY";
+//
+//        public void getCurrentWeather(double latitude, double longitude) {
+//            String url = String.format(Locale.US, "%s?lat=%f&lon=%f&units=metric&appid=%s", BASE_URL, latitude, longitude, APP_ID);
+//            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+//                    new Response.Listener<JSONObject>() {
+//                        @Override
+//                        public void onResponse(JSONObject response) {
+//                            try {
+//                                JSONObject main = response.getJSONObject("main");
+//                                double temperature = main.getDouble("temp");
+//                                temperature_string = String.valueOf(temperature);
+//                                int humidity = main.getInt("humidity");
+//                                JSONArray weatherArray = response.getJSONArray("weather");
+//                                JSONObject weather = weatherArray.getJSONObject(0);
+//                                String description = weather.getString("description");
+//                                String icon = weather.getString("icon");
+////                                temperature=temperature;
+////                                listener.onWeatherDataReceived(temperature, humidity, description, icon);
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+////                                listener.onWeatherDataError("Failed to parse weather data");
+//                            }
+//                        }
+//                    },
+//                    new Response.ErrorListener() {
+//                        @Override
+//                        public void onErrorResponse(VolleyError error) {
+//                            error.printStackTrace();
+////                            listener.onWeatherDataError("Failed to fetch weather data");
+//                        }
+//                    });
+////            Volley.newRequestQueue(listener.getContext()).add(request);
+//        }
+//
+//
+//    }
+
+
 }
+
+//interface OnWeatherDataListener {
+//    void onWeatherDataReceived(double temperature, int humidity, String description, String icon);
+//
+//    void onWeatherDataError(String errorMessage);
+//
+//    Context getContext();
+//}

@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.location.Location;
@@ -651,10 +652,18 @@ public class ForYouFragment<REQUEST_CODE_PERMISSIONS> extends Fragment {
         return results[0] / 1000;
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+
+    }
+
 
     @Override
     public void onStop() {
         super.onStop();
+        view.findViewById(R.id.progressBar).setVisibility(View.GONE);
+        view.findViewById(R.id.main_home_content).setVisibility(View.VISIBLE);
 //        adapter.stopListening();
     }
 
