@@ -68,6 +68,7 @@
                     android:id="@+id/holder6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
                     android:gravity="center"
                     android:padding="@dimen/_4sdp"
                     android:text="Place name"
@@ -89,9 +90,9 @@
                         android:id="@+id/weatherIcon"
                         android:layout_width="@dimen/_63sdp"
                         android:layout_height="@dimen/_50sdp"
-                        android:scaleType="fitXY"
+                        android:contentDescription="TODO"
                         android:padding="@dimen/_6sdp"
-                        android:contentDescription="TODO" />
+                        android:scaleType="fitXY" />
 
                     <!--                    <TextView-->
                     <!--                        android:id="@+id/temperature_condition"-->
@@ -107,9 +108,10 @@
                         android:id="@+id/temperature"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:fontFamily="@font/roboto"
+                        android:gravity="center_vertical"
                         android:padding="@dimen/_6sdp"
                         android:text="Temperature"
-                        android:gravity="center_vertical"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_12ssp"
                         android:textStyle="bold" />
@@ -119,8 +121,9 @@
                         android:id="@+id/humidity"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:padding="@dimen/_6sdp"
+                        android:fontFamily="@font/roboto"
                         android:gravity="center_vertical"
+                        android:padding="@dimen/_6sdp"
                         android:text="Humidity"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_12ssp"
@@ -154,6 +157,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_alignParentEnd="true"
+                                android:fontFamily="@font/roboto"
                                 android:padding="@dimen/_6sdp"
                                 android:text="distance"
                                 android:textColor="@color/black"
@@ -164,6 +168,7 @@
 
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto"
                                 android:gravity="start"
                                 android:text="Information:"
                                 android:textColor="@color/theme"
@@ -190,6 +195,7 @@
                                     android:layout_width="0dip"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
+                                    android:fontFamily="@font/roboto"
                                     android:text="Facilities:"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/_12ssp"
@@ -201,6 +207,7 @@
                                     android:layout_width="0dip"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
+                                    android:fontFamily="@font/roboto"
                                     android:text="facilities"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/_12ssp" />
@@ -218,6 +225,7 @@
                                     android:layout_width="0dip"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
+                                    android:fontFamily="@font/roboto"
                                     android:text="Timings:"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/_12ssp"
@@ -229,6 +237,7 @@
                                     android:layout_width="0dip"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
+                                    android:fontFamily="@font/roboto"
                                     android:text="timings"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/_12ssp" />
@@ -245,6 +254,7 @@
                                     android:layout_width="0dip"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
+                                    android:fontFamily="@font/roboto"
                                     android:text="Address:"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/_12ssp"
@@ -257,6 +267,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:autoLink="map"
+                                    android:fontFamily="@font/roboto"
                                     android:text="address"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/_12ssp" />
@@ -274,6 +285,7 @@
                                     android:layout_width="0dip"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
+                                    android:fontFamily="@font/roboto"
                                     android:text="Phone Number:"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/_12ssp"
@@ -286,6 +298,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:autoLink="phone"
+                                    android:fontFamily="@font/roboto"
                                     android:text="phone number"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/_12ssp" />
@@ -301,6 +314,7 @@
                                     android:layout_width="0dip"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
+                                    android:fontFamily="@font/roboto"
                                     android:text="Website:"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/_12ssp"
@@ -313,6 +327,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:autoLink="web"
+                                    android:fontFamily="@font/roboto"
                                     android:text="website"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/_12ssp" />
@@ -347,6 +362,7 @@
 
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
                             android:gravity="start"
                             android:text="Description"
                             android:textColor="@color/theme"
@@ -358,6 +374,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_5sdp"
+                            android:fontFamily="@font/roboto"
                             android:gravity="start"
                             android:text=""
                             android:textColor="@color/black"
@@ -390,6 +407,7 @@
 
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
                             android:gravity="start"
                             android:text="Map and Navigation"
                             android:textColor="@color/theme"
@@ -416,6 +434,7 @@
                                 android:layout_height="@dimen/_50sdp"
                                 android:layout_marginTop="@dimen/_5sdp"
                                 android:backgroundTint="@color/toolbar_colour_blue"
+                                android:fontFamily="@font/roboto"
                                 android:gravity="center"
                                 android:text="VIEW"
                                 android:textColor="@color/white"
@@ -430,6 +449,7 @@
                                 android:layout_alignParentEnd="true"
                                 android:layout_marginTop="@dimen/_5sdp"
                                 android:backgroundTint="@color/toolbar_colour_blue"
+                                android:fontFamily="@font/roboto"
                                 android:gravity="center"
                                 android:text="NAVIGATE"
                                 android:textColor="@color/white"

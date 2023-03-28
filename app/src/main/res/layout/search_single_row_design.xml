@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_gravity="center_vertical"
+            android:fontFamily="@font/roboto"
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_toEndOf="@+id/search_icon"
             android:textSize="@dimen/_12ssp"

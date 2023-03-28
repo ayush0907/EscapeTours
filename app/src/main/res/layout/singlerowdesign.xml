@@ -15,9 +15,9 @@
         android:layout_height="match_parent">
 
         <RelativeLayout
+            android:id="@+id/image_text_layout"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_130sdp"
-            android:id="@+id/image_text_layout">
+            android:layout_height="@dimen/_130sdp">
 
             <ImageView
                 android:id="@+id/entertainment_place_img"
@@ -32,9 +32,10 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:text="distance"
-                android:paddingHorizontal="@dimen/_2sdp"
                 android:background="#454545"
+                android:fontFamily="@font/roboto"
+                android:paddingHorizontal="@dimen/_2sdp"
+                android:text="distance"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
 
@@ -51,6 +52,7 @@
             android:layout_marginTop="@dimen/_4sdp"
             android:layout_marginRight="@dimen/_2sdp"
             android:ellipsize="end"
+            android:fontFamily="@font/roboto"
             android:gravity="left"
             android:maxLines="1"
             android:text="Entertainment Place"
@@ -64,6 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="@dimen/_5sdp"
+            android:fontFamily="@font/roboto"
             android:paddingLeft="@dimen/_3sdp"
             android:text="City"
             android:textColor="@color/black"
